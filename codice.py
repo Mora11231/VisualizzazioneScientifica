@@ -26,6 +26,7 @@ def aggiornaFile():
     df['Release date'] = df['Release date'].apply(lambda x : datetime.strptime(x, "%b %d %Y"))
 
     df.to_csv("fileAggiornato.csv",index=False)
+#aggiornaFile()
 
 def prova():
     df = pd.read_csv('fileAggiornato.csv')
@@ -128,29 +129,112 @@ def graficoTortaAppEGiochiCrocetta():
     fig = px.pie(values=[n_f2p,n_p2p],names=['F2P','P2P'])
     fig.show()
     elaborato_df = pd.concat([f2p,liar]).sort_index()
-    elaborato_df.to_csv("fileAggiornatoF2P.csv")
+    elaborato_df.to_csv("fileAggiornatoF2P.csv",index=False)
 #graficoTortaAppEGiochiCrocetta()
 
 def graficoBarrePerAnno():
     df = pd.read_csv('fileAggiornatoF2P.csv')
     df['Release date'] = df['Release date'].astype('datetime64[ns]')
     df['year'] = df['Release date'].apply(lambda x: x.year)
+    
     giochiPerAnno= df['year'].value_counts().sort_index()
+    giochiSum=giochiPerAnno.cumsum()
 
-
-    giochiPerAnno.iloc[16] = giochiPerAnno[:17].cumsum().iloc[16]
+    giochiPerAnno[2013] =giochiSum[2013]
     print(giochiPerAnno)
-    fig = px.line(giochiPerAnno,giochiPerAnno.index[16:-1],giochiPerAnno[16:-1])
+
+    graph1 = go.Scatter(
+        x=giochiPerAnno.index[16:-1],
+        y= giochiPerAnno[16:-1],
+        mode="markers+lines"
+        )
+
+    fig = go.Figure()
+    fig.add_trace(graph1)
+
     fig.show()
-graficoBarrePerAnno()
+#graficoBarrePerAnno()
 
 def graficoBarrePerEstimated():
-    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df = pd.read_csv('fileAggiornato.csv')
+    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners'],x['Peak CCU']),axis=1)
     df['Release date'] = df['Release date'].astype('datetime64[ns]')
     df['year'] = df['Release date'].apply(lambda x: x.year)
 
-    df = df['Estimated owners'].groupby('year').sum()
+    df = df[['Estimated owners','year']].groupby('year').sum()
+    df = df['Estimated owners']
 
-    fig = px.bar(df,df.index,'Unnamed: 0')
+    sum_df = df.cumsum()
+    df[2003] = sum_df[2003]
+
+    fig = go.Figure()
+
+    graph1 = go.Bar(
+        x=df.index[6:-1],
+        y=df[6:-1]  
+        )
+    
+    graph2 = go.Scatter(
+        x=sum_df.index[6:-1],
+        y= sum_df[6:-1],
+        mode="markers+lines"
+        )
+    
+    fig.add_trace(graph1)
+    fig.add_trace(graph2)
     fig.show()
 #graficoBarrePerEstimated()
+
+def uscitePerMese():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+    df['month'] = df['Release date'].apply(lambda x: x.month)
+
+    years =[2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
+    fig = go.Figure()
+    for i in years:
+        df_year = df[df['year'] == i]
+        series = df_year['month'].value_counts().sort_index()
+
+        graph = go.Scatter(
+            x=series.index,
+            y=series,
+            #fill='tozeroy',
+            name = i
+        )
+
+        fig.add_trace(graph)
+ 
+    fig.show() 
+#uscitePerMese()
+
+def replaceNaN(x):
+    if x!=x:
+        return ""
+    return x
+
+def inserireGenere(x,i):
+    if x.find(i) != -1:
+        return True
+    else:
+        return False
+
+def EstrazioneGeneri():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df['Genres'] = df['Genres'].apply(lambda x: replaceNaN(x))
+    generi=set()
+
+    for x in df['Genres']:
+        if x == '':
+            continue
+        s = x.split(',')
+        for i in s:
+            generi.add(i)
+
+    for i in generi:
+        df[i] = df['Genres'].apply(lambda x: inserireGenere(x,i))
+    #df.to_csv('fileAggiornatoGeneri.csv',index=False)
+
+    print(df['Indie'].corr(df['Casual']))
+EstrazioneGeneri()
