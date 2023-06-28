@@ -128,5 +128,29 @@ def graficoTortaAppEGiochiCrocetta():
     fig = px.pie(values=[n_f2p,n_p2p],names=['F2P','P2P'])
     fig.show()
     elaborato_df = pd.concat([f2p,liar]).sort_index()
+    elaborato_df.to_csv("fileAggiornatoF2P.csv")
+#graficoTortaAppEGiochiCrocetta()
 
-graficoTortaAppEGiochiCrocetta()
+def graficoBarrePerAnno():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+    giochiPerAnno= df['year'].value_counts().sort_index()
+
+
+    giochiPerAnno.iloc[16] = giochiPerAnno[:17].cumsum().iloc[16]
+    print(giochiPerAnno)
+    fig = px.line(giochiPerAnno,giochiPerAnno.index[16:-1],giochiPerAnno[16:-1])
+    fig.show()
+graficoBarrePerAnno()
+
+def graficoBarrePerEstimated():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+
+    df = df['Estimated owners'].groupby('year').sum()
+
+    fig = px.bar(df,df.index,'Unnamed: 0')
+    fig.show()
+#graficoBarrePerEstimated()
