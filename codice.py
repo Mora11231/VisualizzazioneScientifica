@@ -3,6 +3,7 @@ from datetime import datetime
 import plotly.express as px
 import plotly.graph_objs as go
 import re
+from datetime import date
 
 def checkPerData(x):
     if len(x) == 8:
@@ -26,6 +27,7 @@ def aggiornaFile():
     df['Release date'] = df['Release date'].apply(lambda x : datetime.strptime(x, "%b %d %Y"))
 
     df.to_csv("fileAggiornato.csv",index=False)
+#aggiornaFile()
 
 def prova():
     df = pd.read_csv('fileAggiornato.csv')
@@ -128,5 +130,203 @@ def graficoTortaAppEGiochiCrocetta():
     fig = px.pie(values=[n_f2p,n_p2p],names=['F2P','P2P'])
     fig.show()
     elaborato_df = pd.concat([f2p,liar]).sort_index()
+    elaborato_df.to_csv("fileAggiornatoF2P.csv",index=False)
+#graficoTortaAppEGiochiCrocetta()
 
-graficoTortaAppEGiochiCrocetta()
+def graficoBarrePerAnno():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+    
+    giochiPerAnno= df['year'].value_counts().sort_index()
+    giochiSum=giochiPerAnno.cumsum()
+
+    giochiPerAnno[2013] =giochiSum[2013]
+    print(giochiPerAnno)
+
+    graph1 = go.Scatter(
+        x=giochiPerAnno.index[16:-1],
+        y= giochiPerAnno[16:-1],
+        mode="markers+lines"
+        )
+
+    fig = go.Figure()
+    fig.add_trace(graph1)
+
+    fig.show()
+#graficoBarrePerAnno()
+
+def graficoBarrePerEstimated():
+    df = pd.read_csv('fileAggiornato.csv')
+    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners'],x['Peak CCU']),axis=1)
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+
+    df = df[['Estimated owners','year']].groupby('year').sum()
+    df = df['Estimated owners']
+
+    sum_df = df.cumsum()
+    df[2003] = sum_df[2003]
+
+    fig = go.Figure()
+
+    graph1 = go.Bar(
+        x=df.index[6:-1],
+        y=df[6:-1]  
+        )
+    
+    graph2 = go.Scatter(
+        x=sum_df.index[6:-1],
+        y= sum_df[6:-1],
+        mode="markers+lines"
+        )
+    
+    fig.add_trace(graph1)
+    fig.add_trace(graph2)
+    fig.show()
+#graficoBarrePerEstimated()
+
+def uscitePerMese():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+    df['month'] = df['Release date'].apply(lambda x: x.month)
+
+    years =[2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
+    fig = go.Figure()
+    for i in years:
+        df_year = df[df['year'] == i]
+        series = df_year['month'].value_counts().sort_index()
+
+        graph = go.Scatter(
+            x=series.index,
+            y=series,
+            #fill='tozeroy',
+            name = i
+        )
+
+        fig.add_trace(graph)
+ 
+    fig.show() 
+#uscitePerMese()
+
+def replaceNaN(x):
+    if x!=x:
+        return ""
+    return x
+
+def inserireGenere(x,i):
+    if x.find(i) != -1:
+        return True
+    else:
+        return False
+
+def EstrazioneGeneri():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df['Genres'] = df['Genres'].apply(lambda x: replaceNaN(x))
+    generi=set()
+
+    for x in df['Genres']:
+        if x == '':
+            continue
+        s = x.split(',')
+        for i in s:
+            generi.add(i)
+
+    for i in generi:
+        df[i] = df['Genres'].apply(lambda x: inserireGenere(x,i))
+    #df.to_csv('fileAggiornatoGeneri.csv',index=False)
+
+    print(df['Indie'].corr(df['Casual']))
+#EstrazioneGeneri()
+
+
+def checkMultiplayer(x):
+    return bool(re.search(r'\b(?:\w+,\s)?Multi-player(?:,\s\w+)?\b', x))
+
+def checkSingleplayer(x):
+    return bool(re.search(r'\b(?:\w+,\s)?Single-player(?:,\s\w+)?\b', x))
+
+def checkCoop(x):
+    return bool(re.search(r'\b(?:\w+,\s)?Co-op(?:,\s\w+)?\b', x))
+
+def checkMultiSingle(x):
+    return (checkMultiplayer(x) & checkSingleplayer(x))
+
+def sunBurstPerCovid():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df = df[['Name','Release date','Categories']]
+
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['Categories'] = df['Categories'].apply(lambda x: replaceNaN(x))
+
+    df['Multi'] = df['Categories'].apply(lambda x: checkMultiplayer(x))
+    df['Single'] = df['Categories'].apply(lambda x: checkSingleplayer(x))
+    df['Coop'] = df['Categories'].apply(lambda x: checkCoop(x))
+    df['MultiSingle'] = df['Categories'].apply(lambda x: checkMultiSingle(x))
+
+
+    pre = date(2020,1,1)
+    post = date(2022,1,1)
+
+    pre_covid = df[df['Release date'].dt.date < pre]
+    covid = df[(df['Release date'].dt.date >= pre) & (df['Release date'].dt.date < post) ]
+    post_covid = df[df['Release date'].dt.date >= post]
+
+    data = dict(
+        periodo=['Pre-Covid','Pre-Covid','Pre-Covid','Pre-Covid','DuranteCovid','DuranteCovid','DuranteCovid','DuranteCovid', 'Covid','Covid','Covid','Covid'],
+        generi=['SiglePlayer','Multiplayer','Coop','MultiSingle','SiglePlayer','Multiplayer','Coop','MultiSingle','SiglePlayer','Multiplayer','Coop','MultiSingle'],
+        value = [sum(pre_covid.Single),sum(pre_covid.Multi),sum(pre_covid.Coop),sum(pre_covid.MultiSingle),sum(covid.Single),sum(covid.Multi),sum(covid.Coop),sum(covid.MultiSingle),sum(post_covid.Single),sum(post_covid.Multi),sum(post_covid.Coop),sum(post_covid.MultiSingle)]
+    )
+
+    fig = px.sunburst(
+    data,
+    path=['periodo','generi'],
+    values='value',
+    )
+    fig.show()
+#sunBurstPerCovid()
+
+def replaceNanNum(x):
+    if x != x:
+        return 0
+    return x
+def diagrammaBarreF2PvsP2P():
+    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+
+    P2P = df[df['F2P'] == False]
+    F2P = df[df['F2P'] == True]
+
+
+
+    series_P2P = P2P[['year']].value_counts().sort_index()
+    series_F2P = F2P[['year']].value_counts().sort_index()
+
+    series_F2P.apply(lambda x : replaceNanNum(x))
+    series_P2P.apply(lambda x : replaceNanNum(x))
+
+
+
+    sum_p2p = series_P2P.cumsum().sort_index()
+    series_P2P[2008] = sum_p2p[2008]
+    series_P2P = series_P2P[11:-1]
+
+    sum_f2p = series_F2P.cumsum().sort_index()
+    series_F2P[2008] = sum_f2p[2008]
+    series_F2P = series_F2P.loc[2008:]          #ci sono dei vuoti negli anni
+    
+
+    df = pd.DataFrame(columns = ['P2P', 'F2P'])
+    df['P2P'] = series_P2P
+    df['F2P'] = series_F2P
+
+    df.reset_index(inplace=True)
+    fig = px.bar(df, x='year', y=['P2P','F2P'],
+            barmode='group',
+            )
+    fig.show()
+
+#diagrammaBarreF2PvsP2P()
