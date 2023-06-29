@@ -316,7 +316,7 @@ def diagrammaBarreF2PvsP2P():
 
     sum_f2p = series_F2P.cumsum().sort_index()
     series_F2P[2008] = sum_f2p[2008]
-    series_F2P = series_F2P.loc[2008:]
+    series_F2P = series_F2P.loc[2008:]          #ci sono dei vuoti negli anni
     
 
     df = pd.DataFrame(columns = ['P2P', 'F2P'])
@@ -329,4 +329,4 @@ def diagrammaBarreF2PvsP2P():
             )
     fig.show()
 
-diagrammaBarreF2PvsP2P()
+#diagrammaBarreF2PvsP2P()
