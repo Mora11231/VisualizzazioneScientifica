@@ -71,6 +71,18 @@ def EstrazioneGeneri():
         df[i] = df['Genres'].apply(lambda x: inserireGenere(x,i))
     df.to_csv('CodicePerGrafici/fileAggiornatoGeneri.csv',index=False)
 
-creazioneCSVCorretto()
-creazioneCSVConF2P()
+    tags=set()
+    df['Tags'] = df['Tags'].apply(lambda x: replaceNaN(x))
+    generi=set()
+
+    for x in df['Tags']:
+        if x == '':
+            continue
+        s = x.split(',')
+        for i in s:
+            tags.add(i)
+    print(tags)
+
+#creazioneCSVCorretto()
+#creazioneCSVConF2P()
 EstrazioneGeneri()

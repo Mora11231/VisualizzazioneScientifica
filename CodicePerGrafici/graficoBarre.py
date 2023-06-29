@@ -72,15 +72,55 @@ def diagrammaBarreF2PvsP2P():
     
 
     df = pd.DataFrame(columns = ['P2P', 'F2P'])
-    df['P2P'] = series_P2P
-    df['F2P'] = series_F2P
+    df['P2P'] = series_P2P/(series_P2P+series_F2P)*100
+    df['F2P'] = series_F2P/(series_P2P+series_F2P)*100
 
     df.reset_index(inplace=True)
-    fig = px.bar(df, x='year', y=['P2P','F2P'],
-            barmode='group',
+    fig = px.bar(df, x=['P2P','F2P'], y='year',
+            barmode='stack',
+            orientation='h'
             )
     fig.show()
 
-graficoBarrePerAnno()
-graficoBarrePerEstimated()
+
+def uscitePerMese():
+    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['month'] = df['Release date'].apply(lambda x: x.month)
+
+
+    fig = go.Figure()
+    series = df['month'].value_counts().sort_index()
+
+    
+
+    graph = go.Bar(
+            x=series.index,
+            y=series/sum(series)*100
+            
+        )
+    
+    fig.add_trace(graph)
+
+    fig.update_layout(
+        title = "GRAFICO USCITE DI GIOCHI PER MESE",
+        xaxis_title="Mesi",
+        yaxis_title="percentuale giochi usciti",
+        xaxis=dict(
+            tickmode='array',
+            tickvals=series.index,
+            ticktext=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"]
+        ),
+        colorway=['red'],
+        plot_bgcolor = 'green',
+        paper_bgcolor ='blue',
+        font = dict(
+            color="white"
+        )
+      
+    )
+    fig.show() 
+
+#graficoBarrePerEstimated()
 diagrammaBarreF2PvsP2P()
+#uscitePerMese()

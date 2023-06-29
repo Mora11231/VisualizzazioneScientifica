@@ -1,28 +1,8 @@
 import pandas as pd
 import plotly.graph_objs as go
+import scipy.stats as st
 
-def uscitePerMese():
-    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
-    df['Release date'] = df['Release date'].astype('datetime64[ns]')
-    df['year'] = df['Release date'].apply(lambda x: x.year)
-    df['month'] = df['Release date'].apply(lambda x: x.month)
 
-    years =[2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
-    fig = go.Figure()
-    for i in years:
-        df_year = df[df['year'] == i]
-        series = df_year['month'].value_counts().sort_index()
-
-        graph = go.Scatter(
-            x=series.index,
-            y=series,
-            #fill='tozeroy',
-            name = i
-        )
-
-        fig.add_trace(graph)
- 
-    fig.show() 
 
 def graficoGiochiPerAnno():
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
@@ -45,5 +25,35 @@ def graficoGiochiPerAnno():
 
     fig.show()
 
-graficoGiochiPerAnno()
-uscitePerMese()
+def graficoMediaPrezzoAnni():
+    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+    df= df[df['year']>=2007]
+
+    P2P = df[df['Price'] > 5]
+    p2p_series= P2P[['year','Price']].groupby('year').mean()
+
+    fig = go.Figure()
+
+    graph = go.Scatter(
+        x=p2p_series.index[:-1],
+        y=p2p_series.Price[:-1],
+        mode="markers+lines",
+        name='Prezzo Medio Senza F2P'
+    )
+
+    series = df[['year','Price']].groupby('year').mean()
+    graph1 = go.Scatter(
+        x=series.index[:-1],
+        y=series.Price[:-1],
+        mode="markers+lines",
+        name='Prezzo Medio CON F2P'
+    )
+   
+    fig = fig.add_trace(graph)
+    fig = fig.add_trace(graph1)
+    fig.show()
+
+graficoMediaPrezzoAnni()
+#graficoGiochiPerAnno()

@@ -13,7 +13,7 @@ def checkMultiplayer(x):
     return bool(re.search(r'\b(?:\w+,\s)?Multi-player(?:,\s\w+)?\b', x))
 
 def checkSingleplayer(x):
-    return bool(re.search(r'\b(?:\w+,\s)?Single-player(?:,\s\w+)?\b', x))
+    return bool(re.search(r'\b(?:\w+,\s)?Single-player(?:,\s\w+)?\b', x)) & (not checkMultiplayer(x))
 
 def checkCoop(x):
     return bool(re.search(r'\b(?:\w+,\s)?Co-op(?:,\s\w+)?\b', x))
@@ -42,9 +42,9 @@ def sunBurstPerCovid():
     post_covid = df[df['Release date'].dt.date >= post]
 
     data = dict(
-        periodo=['Pre-Covid','Pre-Covid','Pre-Covid','Pre-Covid','DuranteCovid','DuranteCovid','DuranteCovid','DuranteCovid', 'Covid','Covid','Covid','Covid'],
-        generi=['SiglePlayer','Multiplayer','Coop','MultiSingle','SiglePlayer','Multiplayer','Coop','MultiSingle','SiglePlayer','Multiplayer','Coop','MultiSingle'],
-        value = [sum(pre_covid.Single),sum(pre_covid.Multi),sum(pre_covid.Coop),sum(pre_covid.MultiSingle),sum(covid.Single),sum(covid.Multi),sum(covid.Coop),sum(covid.MultiSingle),sum(post_covid.Single),sum(post_covid.Multi),sum(post_covid.Coop),sum(post_covid.MultiSingle)]
+        periodo=['Pre-Covid','Pre-Covid','Pre-Covid','DuranteCovid','DuranteCovid','DuranteCovid', 'Covid','Covid','Covid'],
+        generi=['SiglePlayer','Multiplayer','Coop','SiglePlayer','Multiplayer','Coop','SiglePlayer','Multiplayer','Coop'],
+        value = [sum(pre_covid.Single),sum(pre_covid.Multi),sum(pre_covid.Coop),sum(covid.Single),sum(covid.Multi),sum(covid.Coop),sum(post_covid.Single),sum(post_covid.Multi),sum(post_covid.Coop)]
     )
 
     fig = px.sunburst(
@@ -53,4 +53,4 @@ def sunBurstPerCovid():
     values='value',
     )
     fig.show()
-sunBurstPerCovid()
+sunBurstPerCovid()  
