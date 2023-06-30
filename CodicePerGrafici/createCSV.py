@@ -83,6 +83,27 @@ def EstrazioneGeneri():
             tags.add(i)
     print(tags)
 
+
+def inserireTag(x,i):
+    for t in i:
+        if x.find(t) != -1:
+            return True
+    return False
+def EstrazioneGeneri():
+    generi = ["Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rouge","Platformer","Fighter","Fantasy","Shotter","MOBA","HackSlash"]
+    keyword = [["Action"],['Racing','Driving'],['Sexual Content','Hentai','Nudity'],['Massively Multiplayer','MMORPG'],['Simulation','Sim'],['Casual'],['Strategy'],['Sports'],['RPG'],['Trading Card Game','Card Game','Card'],['Survival'],['Horror','Thriller'],['Rogue'],['Platformer'],['Fighter','Fighting'],['Fantasy'],['FPS','Shooter','Shoot'],['MOBA'],['Hack and Slash']]
+
+    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
+    df=df[['Name','Tags']]
+
+    df['Tags'] = df['Tags'].apply(lambda x: replaceNaN(x))
+    for i in range(len(generi)):
+        df[generi[i]] = df['Tags'].apply(lambda x: inserireTag(x,keyword[i]))
+    df.to_csv('CodicePerGrafici/fileAggiornatoTags.csv',index=False)
+
+
+   
+
 #creazioneCSVCorretto()
 #creazioneCSVConF2P()
 EstrazioneGeneri()

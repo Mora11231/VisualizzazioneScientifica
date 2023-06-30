@@ -1,6 +1,6 @@
 import pandas as pd
 import plotly.graph_objs as go
-import scipy.stats as st
+import numpy as np
 
 
 
@@ -15,13 +15,50 @@ def graficoGiochiPerAnno():
     giochiPerAnno[2013] =giochiSum[2013]
     
     graph1 = go.Scatter(
-        x=giochiPerAnno.index[16:-1],
-        y= giochiPerAnno[16:-1],
-        mode="markers+lines"
+            x=giochiPerAnno.index[16:-1],
+            y= giochiPerAnno[16:-1],
+            mode="markers+lines",
+            marker=dict(
+                color='#2a475e' 
+            )
         )
 
     fig = go.Figure()
     fig.add_trace(graph1)
+
+    fig.update_layout(
+        xaxis_title = 'Anno',
+        yaxis_title = 'Numero di Giochi',
+        title = 'Numero di giochi per anno',
+        plot_bgcolor = '#c7d5e0',
+        paper_bgcolor = '#66c0f4',
+        xaxis=dict(
+            tickmode='array',
+            tickvals=giochiPerAnno.index[16:-1],
+            ticktext=[">=2013",2014,2015,2016,2017,2018,2019,2020,2021,2022]
+        ),
+        yaxis=dict(
+            range=(0,11000)
+        ),
+
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        )
+
+    )
+
+    fig.update_xaxes(
+        showgrid=False,
+        dtick = 1,
+
+    )
+
+    fig.update_yaxes(
+        showgrid=True,
+        dtick = 500,
+        zerolinecolor = '#66c0f4',
+    )
 
     fig.show()
 
@@ -53,7 +90,50 @@ def graficoMediaPrezzoAnni():
    
     fig = fig.add_trace(graph)
     fig = fig.add_trace(graph1)
+
+    fig.update_layout(
+        xaxis_title = 'Anno',
+        yaxis_title = 'Numero di Giochi',
+        title = 'Numero di giochi per anno',
+        plot_bgcolor = '#c7d5e0',
+        paper_bgcolor = '#66c0f4',
+        xaxis=dict(
+            range=(2006.9,2022.1),
+            tickmode='array',
+            tickvals=series.index[:-1],
+            ticktext=[2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
+        ),
+        yaxis=dict(
+            range=(5,16),
+            tickmode='array',
+            tickvals=np.arange(5,17,0.5),
+            ticktext=np.arange(5,17,0.5)
+        ),
+
+        legend=dict(
+            title = 'Leggenda:',
+            bgcolor='white' 
+        ),
+
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        )
+
+    )
+
+    fig.update_xaxes(
+        showgrid=True,
+        dtick = 1,
+    )
+
+    fig.update_yaxes(
+        showgrid=True,
+        zerolinecolor = '#66c0f4',
+    )
+
+
     fig.show()
 
-graficoMediaPrezzoAnni()
+#graficoMediaPrezzoAnni()
 #graficoGiochiPerAnno()
