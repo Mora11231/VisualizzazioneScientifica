@@ -1,6 +1,7 @@
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
+import numpy as np
 
 
 
@@ -133,15 +134,39 @@ def diagrammaBarreF2PvsP2P():
             )
     fig.update_traces(textposition="outside")
 
-    fig.update_layout(legend=dict(
-        orientation="h",
-        yanchor="top",
-        y=0.99,
-        xanchor="left",
-        x=0.01
+
+    fig.update_layout(
+        title = "F2P vs P2P",
+        xaxis_title="Videogiochi",
+        yaxis_title="Anni",
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01
         ),
-        legend_title = "Categorie giochi"
+        plot_bgcolor = '#ffffff',
+        legend_title = "Categorie giochi",
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        ),
+        xaxis=dict(
+            tickmode='array',
+            range = (-5,105),
+            tickvals=np.arange(0,101,5),
+            ticktext=np.arange(0,101,5),
+        ),
+
+        yaxis=dict(
+            tickmode='array',
+            tickvals=np.arange(2008,2023,1),
+            ticktext=np.arange(2008,2023,1)
+        ),
     )
+    
+    
     fig.show()
 
 
@@ -192,6 +217,6 @@ def uscitePerMese():
     )
     fig.show() 
 
-graficoBarrePerEstimated()
-#diagrammaBarreF2PvsP2P()
+#graficoBarrePerEstimated()
+diagrammaBarreF2PvsP2P()
 #uscitePerMese()
