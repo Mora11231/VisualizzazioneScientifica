@@ -27,6 +27,22 @@ def graficoTortaAppEGiochi():
     n_app = sum(df['App'])
     n_giochi = len(df)-n_app
 
-    fig = px.pie(values=(n_app,n_giochi),names=['APP','Giochi'])
+    fig = px.pie(values=(n_app,n_giochi),names=['APP','Giochi'],color_discrete_sequence=['#7b3294','#008837'])
+
+    fig.update_layout(
+        title = "Applicazioni / Giochi",
+
+        plot_bgcolor = '#c7d5e0',
+        paper_bgcolor = '#ffffff',
+        
+        
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        )
+    )
+
     fig.show()
+
+
 graficoTortaAppEGiochi()

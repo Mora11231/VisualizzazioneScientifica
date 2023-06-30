@@ -4,7 +4,7 @@ import plotly.express as px
 def divisioneFascieDiPrezzo():
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
     df=df[df['Price'] <100]
-    df=df[df['Price'] >5]
+    #df=df[df['Price'] >5]
     fig = px.histogram(
         df,
         x=df.Price,
@@ -33,7 +33,7 @@ def divisioneFascieDiPrezzo():
         yaxis_title="Percentuale giochi(%)",
 
         plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#66c0f4',
+        paper_bgcolor = '#ffffff',
         
         
         font=dict( 
@@ -43,7 +43,7 @@ def divisioneFascieDiPrezzo():
     )
 
     fig.update_yaxes(
-            zerolinecolor = '#66c0f4',
+            zerolinecolor = '#c7d5e0',
         )
 
     fig.update_layout(bargap=0.1)

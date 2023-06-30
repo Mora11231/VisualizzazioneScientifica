@@ -94,6 +94,41 @@ def heatMapGeneriGiochi():
     )
     
     fig = go.Figure(data=heat, layout=layout)
+
+    fig.update_layout(
+        xaxis_title = 'Anno',
+        yaxis_title = 'Numero di Giochi',
+        title = 'Numero di giochi per anno',
+        plot_bgcolor = '#ffffff',
+        paper_bgcolor = '#c7d5e0',
+        
+
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        )
+
+    )
+
+    fig.update_xaxes(
+        showgrid=False,
+        dtick = 1,
+
+    )
+
+    fig.update_yaxes(
+        showgrid=False,
+        zerolinecolor = '#ffffff',
+    )
+
+    colorscale = [[0, '#542788'], [0.25, '#998ec3'],[0.75,'#f1a340'], [1, '#b35806']]
+    fig.update_traces(
+        colorscale=colorscale,
+        )
+    fig.update_traces(colorbar=dict(
+        tickvals=[0.4,-0.09],
+        ticktext=["Forte Relazione","Relazione Debole"]
+    ))
     fig.show()
     
 

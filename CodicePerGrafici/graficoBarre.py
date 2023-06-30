@@ -187,6 +187,6 @@ def uscitePerMese():
         )
     fig.show() 
 
-#graficoBarrePerEstimated()
+graficoBarrePerEstimated()
 #diagrammaBarreF2PvsP2P()
 #uscitePerMese()

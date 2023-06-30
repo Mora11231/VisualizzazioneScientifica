@@ -19,7 +19,8 @@ def graficoGiochiPerAnno():
             y= giochiPerAnno[16:-1],
             mode="markers+lines",
             marker=dict(
-                color='#2a475e' 
+                color='#2a475e',
+                size = 17
             )
         )
 
@@ -56,7 +57,7 @@ def graficoGiochiPerAnno():
 
     fig.update_yaxes(
         showgrid=True,
-        dtick = 500,
+        dtick = 1000,
         zerolinecolor = '#66c0f4',
     )
 
@@ -68,6 +69,8 @@ def graficoMediaPrezzoAnni():
     df['year'] = df['Release date'].apply(lambda x: x.year)
     df= df[df['year']>=2007]
 
+    ser = pd.Series([6.5801,6.3455,6.3011,6.1364,6.0428,6.0313,6.2425,6.1468,6.4631,6.6657,6.7571,6.8168,7.2808,7.1186,7.0784,7.0181], index=[2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022])
+
     P2P = df[df['Price'] > 5]
     p2p_series= P2P[['year','Price']].groupby('year').mean()
 
@@ -77,7 +80,10 @@ def graficoMediaPrezzoAnni():
         x=p2p_series.index[:-1],
         y=p2p_series.Price[:-1],
         mode="markers+lines",
-        name='Prezzo Medio Senza F2P'
+        name='Prezzo Medio Senza F2P',
+        marker=dict(
+                color='#993404' 
+            )
     )
 
     series = df[['year','Price']].groupby('year').mean()
@@ -85,16 +91,31 @@ def graficoMediaPrezzoAnni():
         x=series.index[:-1],
         y=series.Price[:-1],
         mode="markers+lines",
-        name='Prezzo Medio CON F2P'
+        name='Prezzo Medio CON F2P',
+        marker=dict(
+                color='#d95f0e' 
+            )
+    )
+
+    graph2 = go.Scatter(
+        x=ser.index,
+        y=ser,
+        mode="markers+lines",
+        name='income (/10 000)',
+        marker=dict(
+                color='#fe9929',
+               
+            )
     )
    
     fig = fig.add_trace(graph)
     fig = fig.add_trace(graph1)
+    fig = fig.add_trace(graph2)
 
     fig.update_layout(
         xaxis_title = 'Anno',
-        yaxis_title = 'Numero di Giochi',
-        title = 'Numero di giochi per anno',
+        yaxis_title = 'Prezzo medio in $',
+        title = 'Prezzo medio dei giochi negli anni con stipendio medio(USA)',
         plot_bgcolor = '#c7d5e0',
         paper_bgcolor = '#66c0f4',
         xaxis=dict(
@@ -135,5 +156,5 @@ def graficoMediaPrezzoAnni():
 
     fig.show()
 
-#graficoMediaPrezzoAnni()
+graficoMediaPrezzoAnni()
 #graficoGiochiPerAnno()
