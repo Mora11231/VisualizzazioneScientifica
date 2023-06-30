@@ -50,8 +50,7 @@ def graficoBarrePerEstimated():
         xaxis_title="Anni",
         yaxis_title="Numero di owner",
 
-        plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#66c0f4',
+        plot_bgcolor = '#ffffff',
 
         xaxis=dict(
             tickmode='array',
@@ -70,15 +69,18 @@ def graficoBarrePerEstimated():
         ),
         yaxis=dict(
             dtick=500000000,
-            range=(0,7000000000)
+            range=(0,7100000000)
         )
         
     )
 
     fig.update_yaxes(
-            zeroline = False,
-            zerolinecolor = '#66c0f4',
-        )
+        showgrid=True,
+        gridcolor='#000000',
+        zerolinecolor = '#000000',
+        zerolinewidth = 0.1,
+        dtick=1000000000
+    )
     fig.update_xaxes(
         showgrid=True,
         dtick = 1,
@@ -173,8 +175,7 @@ def uscitePerMese():
             ticktext=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"]
         ),
 
-        plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#66c0f4',
+        plot_bgcolor = '#ffffff',
         
         font=dict( 
             size=17, 
@@ -183,8 +184,12 @@ def uscitePerMese():
     )
 
     fig.update_yaxes(
-            zerolinecolor = '#66c0f4',
-        )
+        showgrid=True,
+        dtick = 1,
+        gridcolor='#000000',
+        zerolinecolor = '#000000',
+        zerolinewidth = 0.1,
+    )
     fig.show() 
 
 graficoBarrePerEstimated()

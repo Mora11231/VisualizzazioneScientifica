@@ -90,7 +90,7 @@ def inserireTag(x,i):
             return True
     return False
 def EstrazioneGeneri():
-    generi = ["Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rouge","Platformer","Fighter","Fantasy","Shotter","MOBA","HackSlash"]
+    generi = ["Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
     keyword = [["Action"],['Racing','Driving'],['Sexual Content','Hentai','Nudity'],['Massively Multiplayer','MMORPG'],['Simulation','Sim'],['Casual'],['Strategy'],['Sports'],['RPG'],['Trading Card Game','Card Game','Card'],['Survival'],['Horror','Thriller'],['Rogue'],['Platformer'],['Fighter','Fighting'],['Fantasy'],['FPS','Shooter','Shoot'],['MOBA'],['Hack and Slash']]
 
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')

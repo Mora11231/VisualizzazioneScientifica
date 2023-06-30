@@ -31,8 +31,7 @@ def graficoGiochiPerAnno():
         xaxis_title = 'Anno',
         yaxis_title = 'Numero di Giochi',
         title = 'Numero di giochi per anno',
-        plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#66c0f4',
+        plot_bgcolor = '#ffffff',
         xaxis=dict(
             tickmode='array',
             tickvals=giochiPerAnno.index[16:-1],
@@ -58,7 +57,9 @@ def graficoGiochiPerAnno():
     fig.update_yaxes(
         showgrid=True,
         dtick = 1000,
-        zerolinecolor = '#66c0f4',
+        gridcolor='#000000',
+        zerolinecolor = '#000000',
+        zerolinewidth = 0.1,
     )
 
     fig.show()
@@ -114,10 +115,9 @@ def graficoMediaPrezzoAnni():
 
     fig.update_layout(
         xaxis_title = 'Anno',
-        yaxis_title = 'Prezzo medio in $',
+        yaxis_title = '$',
         title = 'Prezzo medio dei giochi negli anni con stipendio medio(USA)',
-        plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#66c0f4',
+        plot_bgcolor = '#ffffff',
         xaxis=dict(
             range=(2006.9,2022.1),
             tickmode='array',
@@ -125,10 +125,10 @@ def graficoMediaPrezzoAnni():
             ticktext=[2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
         ),
         yaxis=dict(
-            range=(5,16),
+            range=(5,17),
             tickmode='array',
-            tickvals=np.arange(5,17,0.5),
-            ticktext=np.arange(5,17,0.5)
+            tickvals=np.arange(5.5,17,0.5),
+            ticktext=np.arange(5.5,17,0.5)
         ),
 
         legend=dict(
@@ -150,7 +150,9 @@ def graficoMediaPrezzoAnni():
 
     fig.update_yaxes(
         showgrid=True,
-        zerolinecolor = '#66c0f4',
+        gridcolor='#000000',
+        zerolinecolor = '#000000',
+        zerolinewidth = 0.1,
     )
 
 

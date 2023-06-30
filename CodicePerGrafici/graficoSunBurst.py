@@ -93,10 +93,9 @@ def sunBurstPerCovidV2():
     fig.update_traces(textfont=dict(color='white'))
 
     fig.update_layout(
-        title = "Diviosione dei giochi in periodi di covid",
+        title = "Divisione dei giochi in periodi di covid",
 
-        plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#66c0f4',
+        plot_bgcolor = '#ffffff',
 
         legend=dict(
             title = 'Leggenda:',

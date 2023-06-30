@@ -52,12 +52,8 @@ def heatMapGeneriGiochiOutDate():
 
 def heatMapGeneriGiochi():
     df = pd.read_csv("CodicePerGrafici/fileAggiornatoTags.csv")
-
- 
-    generi = ["Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rouge","Platformer","Fighter","Fantasy","Shotter","MOBA","HackSlash"]
-
-    print(df.columns)
-
+    generi = ["Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
+   
     data=[[]]
 
     for i in generi:
