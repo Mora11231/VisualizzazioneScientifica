@@ -131,13 +131,14 @@ def diagrammaBarreF2PvsP2P():
             barmode='stack',
             orientation='h',
             text_auto=True,
+            color_discrete_map={'P2P': '#d95f02', 'F2P': '#1b9e77'}
             )
     fig.update_traces(textposition="outside")
 
 
     fig.update_layout(
         title = "F2P vs P2P",
-        xaxis_title="Videogiochi",
+        xaxis_title="Videogiochi (%)",
         yaxis_title="Anni",
         legend=dict(
             orientation="h",
@@ -217,6 +218,156 @@ def uscitePerMese():
     )
     fig.show() 
 
+
+def valoreOwnerStimato(x):
+    a = x.split()
+    return int((int(a[0]) + int(a[2]))/2)
+
+def diagrammaBarreF2PvsP2PAvgTime():
+    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+
+    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
+    
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+
+    P2P = df[df['F2P'] == False]
+    F2P = df[df['F2P'] == True]
+
+    P2P['Average playtime forever'] = P2P['Average playtime forever'] * P2P['Estimated owners']
+    F2P['Average playtime forever'] = F2P['Average playtime forever'] * F2P['Estimated owners']
+
+    series_P2P = P2P[['year','Average playtime forever']].groupby('year').sum().sort_index()
+    series_F2P = F2P[['year','Average playtime forever']].groupby('year').sum().sort_index()
+
+    sum_p2p = series_P2P.cumsum().sort_index()
+    series_P2P.loc[2008] = sum_p2p.loc[2008]
+    series_P2P = series_P2P[11:-1]
+
+    sum_f2p = series_F2P.cumsum().sort_index()
+    series_F2P.loc[2008] = sum_f2p.loc[2008]
+    series_F2P = series_F2P.loc[2008:]          #ci sono dei vuoti negli anni
+    
+
+    df = pd.DataFrame(columns = ['P2P', 'F2P'])
+    df['P2P'] = round(series_P2P/(series_P2P+series_F2P)*100,2)
+    df['F2P'] = round(series_F2P/(series_P2P+series_F2P)*100,2)
+
+    df.reset_index(inplace=True)
+    fig = px.bar(df, x=['P2P','F2P'], y='year',
+            barmode='stack',
+            orientation='h',
+            text_auto=True,
+            color_discrete_map={'P2P': '#d95f02', 'F2P': '#1b9e77'}
+            )
+    fig.update_traces(textposition="outside")
+
+
+    fig.update_layout(
+        title = "F2P vs P2P AVG TIME FOREVER * E_U",
+        xaxis_title="Videogiochi (%)",
+        yaxis_title="Anni",
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01
+        ),
+        plot_bgcolor = '#ffffff',
+        legend_title = "Categorie giochi",
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        ),
+        xaxis=dict(
+            tickmode='array',
+            range = (-5,105),
+            tickvals=np.arange(0,101,5),
+            ticktext=np.arange(0,101,5),
+        ),
+
+        yaxis=dict(
+            tickmode='array',
+            tickvals=np.arange(2008,2023,1),
+            ticktext=np.arange(2008,2023,1)
+        ),
+    )
+    
+    
+    fig.show()
+
+def diagrammaBarreF2PvsP2PPeakCCU():
+    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
+    df['Release date'] = df['Release date'].astype('datetime64[ns]')
+
+    df['year'] = df['Release date'].apply(lambda x: x.year)
+
+    P2P = df[df['F2P'] == False]
+    F2P = df[df['F2P'] == True]
+
+    series_P2P = P2P[['year','Peak CCU']].groupby('year').sum().sort_index()
+    series_F2P = F2P[['year','Peak CCU']].groupby('year').sum().sort_index()
+
+    sum_p2p = series_P2P.cumsum().sort_index()
+    series_P2P.loc[2008] = sum_p2p.loc[2008]
+    series_P2P = series_P2P[11:-1]
+
+    sum_f2p = series_F2P.cumsum().sort_index()
+    series_F2P.loc[2008] = sum_f2p.loc[2008]
+    series_F2P = series_F2P.loc[2008:]          #ci sono dei vuoti negli anni
+    
+
+    df = pd.DataFrame(columns = ['P2P', 'F2P'])
+    df['P2P'] = round(series_P2P/(series_P2P+series_F2P)*100,2)
+    df['F2P'] = round(series_F2P/(series_P2P+series_F2P)*100,2)
+
+    df.reset_index(inplace=True)
+    fig = px.bar(df, x=['P2P','F2P'], y='year',
+            barmode='stack',
+            orientation='h',
+            text_auto=True,
+            color_discrete_map={'P2P': '#d95f02', 'F2P': '#1b9e77'}
+            )
+    fig.update_traces(textposition="outside")
+
+
+    fig.update_layout(
+        title = "F2P vs P2P PEAK CCU",
+        xaxis_title="Videogiochi (%)",
+        yaxis_title="Anni",
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01
+        ),
+        plot_bgcolor = '#ffffff',
+        legend_title = "Categorie giochi",
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        ),
+        xaxis=dict(
+            tickmode='array',
+            range = (-5,105),
+            tickvals=np.arange(0,101,5),
+            ticktext=np.arange(0,101,5),
+        ),
+
+        yaxis=dict(
+            tickmode='array',
+            tickvals=np.arange(2008,2023,1),
+            ticktext=np.arange(2008,2023,1)
+        ),
+    )
+    
+    
+    fig.show()
+
 #graficoBarrePerEstimated()
-diagrammaBarreF2PvsP2P()
+#diagrammaBarreF2PvsP2P()
 #uscitePerMese()
+diagrammaBarreF2PvsP2PAvgTime()
+#diagrammaBarreF2PvsP2PPeakCCU()

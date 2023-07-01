@@ -94,7 +94,7 @@ def EstrazioneGeneri():
     keyword = [["Action"],['Racing','Driving'],['Sexual Content','Hentai','Nudity'],['Massively Multiplayer','MMORPG'],['Simulation','Sim'],['Casual'],['Strategy'],['Sports'],['RPG'],['Trading Card Game','Card Game','Card'],['Survival'],['Horror','Thriller'],['Rogue'],['Platformer'],['Fighter','Fighting'],['Fantasy'],['FPS','Shooter','Shoot'],['MOBA'],['Hack and Slash']]
 
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
-    df=df[['Name','Tags']]
+    df=df[['Name','Estimated owners','Peak CCU','Average playtime forever','Tags']]
 
     df['Tags'] = df['Tags'].apply(lambda x: replaceNaN(x))
     for i in range(len(generi)):

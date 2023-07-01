@@ -32,8 +32,7 @@ def divisioneFascieDiPrezzo():
         xaxis_title="Fasce di prezzo",
         yaxis_title="Percentuale giochi(%)",
 
-        plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#ffffff',
+        plot_bgcolor = '#ffffff',
         
         
         font=dict( 
@@ -41,10 +40,12 @@ def divisioneFascieDiPrezzo():
             color="#171a21" 
         )
     )
-
     fig.update_yaxes(
-            zerolinecolor = '#c7d5e0',
-        )
+        showgrid=True,
+        gridcolor='#000000',
+        zerolinecolor = '#000000',
+        zerolinewidth = 0.1,
+    )
 
     fig.update_layout(bargap=0.1)
     fig.show()
