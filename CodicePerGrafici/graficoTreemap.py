@@ -11,6 +11,7 @@ def valoreOwnerStimato(x):
 def treeMapEstimatedOwner():
 
     df = pd.read_csv('CodicePerGrafici/FileAggiornatoTags.csv')
+    df=df[df['User score']>=80]
     df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
     
     generi = ["Estimated owners","Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
@@ -40,15 +41,27 @@ def treeMapEstimatedOwner():
         parents=parent,
         values=val,
         marker=dict(
-            colors=[]
+            colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
         )
 
         ))
+    
+    fig.update_layout(
+        title = "Categoria di giochi piu popolari per Estimated User",
+        plot_bgcolor = '#ffffff',
+
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        ),
+       
+    )
     fig.show()
 
 def treeMapPeak():
 
     df = pd.read_csv('CodicePerGrafici/FileAggiornatoTags.csv')
+    df=df[df['User score']>=80]
     
     generi = ["Peak CCU","Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
 
@@ -75,15 +88,27 @@ def treeMapPeak():
         parents=parent,
         values=val,
         marker=dict(
-            colors=[]
+            colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
         )
 
         ))
+    
+    fig.update_layout(
+        title = "Categoria di giochi piu popolari per Peak CCU",
+        plot_bgcolor = '#ffffff',
+
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        ),
+       
+    )
     fig.show()
 
 def treeMapAvgTime():
 
     df = pd.read_csv('CodicePerGrafici/FileAggiornatoTags.csv')
+    df=df[df['User score']>=80]
     
     generi = ["Average playtime forever","Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
 
@@ -110,10 +135,20 @@ def treeMapAvgTime():
         parents=parent,
         values=val,
         marker=dict(
-            colors=[]
+            colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
         )
-
         ))
+    
+    fig.update_layout(
+        title = "Categoria di giochi piu popolari per Avg Time",
+        plot_bgcolor = '#ffffff',
+
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        ),
+       
+    )
     fig.show()
 
 

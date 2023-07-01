@@ -6,13 +6,13 @@ import numpy as np
 
 
 
-def valoreOwnerStimato(x,y):
+def valoreOwnerStimatoD(x,y):
     a = x.split()
     return int(int(a[0]) + int(a[2]))/2 + y
 
 def graficoBarrePerEstimated():
     df = pd.read_csv('CodicePerGrafici/fileAggiornato.csv')
-    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners'],x['Peak CCU']),axis=1)
+    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimatoD(x['Estimated owners'],x['Peak CCU']),axis=1)
     df['Release date'] = df['Release date'].astype('datetime64[ns]')
     df['year'] = df['Release date'].apply(lambda x: x.year)
 
@@ -370,4 +370,4 @@ def diagrammaBarreF2PvsP2PPeakCCU():
 #diagrammaBarreF2PvsP2P()
 #uscitePerMese()
 diagrammaBarreF2PvsP2PAvgTime()
-#diagrammaBarreF2PvsP2PPeakCCU()
+diagrammaBarreF2PvsP2PPeakCCU()

@@ -30,6 +30,11 @@ def checkF2P(x):
         return False
     return bool(re.search(r'\b(?:\w+,\s)?Free to Play(?:,\s\w+)?\b', x))
 
+def replaceNan(x):
+    if x != x:
+        return 0
+    return x
+
 def creazioneCSVConF2P():
     df = pd.read_csv('CodicePerGrafici/fileAggiornato.csv')
     f2p = df[df['Price'] == 0]
@@ -39,6 +44,15 @@ def creazioneCSVConF2P():
     liar['F2P'] = liar.Tags.apply(lambda x: checkF2P(x))
 
     elaborato_df = pd.concat([f2p,liar]).sort_index()
+
+    elaborato_df['Positive'] = elaborato_df['Positive'].astype('int64')
+    elaborato_df['Negative'] = elaborato_df['Negative'].astype('int64')
+
+    elaborato_df['User score'] = elaborato_df['Positive']/(elaborato_df['Positive']+elaborato_df['Negative'])*100
+
+    elaborato_df['User score'] = elaborato_df['User score'].apply(lambda x: replaceNan(x))
+    elaborato_df['User score'] = elaborato_df['User score'].apply(lambda x: int(x))
+    
     elaborato_df.to_csv("CodicePerGrafici/fileAggiornatoF2P.csv",index=False)
 creazioneCSVConF2P()
 
@@ -48,40 +62,6 @@ def replaceNaN(x):
     if x!=x:
         return ""
     return x
-
-def inserireGenere(x,i):
-    if x.find(i) != -1:
-        return True
-    else:
-        return False
-
-def EstrazioneGeneri():
-    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
-    df['Genres'] = df['Genres'].apply(lambda x: replaceNaN(x))
-    generi=set()
-
-    for x in df['Genres']:
-        if x == '':
-            continue
-        s = x.split(',')
-        for i in s:
-            generi.add(i)
-
-    for i in generi:
-        df[i] = df['Genres'].apply(lambda x: inserireGenere(x,i))
-    df.to_csv('CodicePerGrafici/fileAggiornatoGeneri.csv',index=False)
-
-    tags=set()
-    df['Tags'] = df['Tags'].apply(lambda x: replaceNaN(x))
-    generi=set()
-
-    for x in df['Tags']:
-        if x == '':
-            continue
-        s = x.split(',')
-        for i in s:
-            tags.add(i)
-    print(tags)
 
 
 def inserireTag(x,i):
@@ -94,7 +74,7 @@ def EstrazioneGeneri():
     keyword = [["Action"],['Racing','Driving'],['Sexual Content','Hentai','Nudity'],['Massively Multiplayer','MMORPG'],['Simulation','Sim'],['Casual'],['Strategy'],['Sports'],['RPG'],['Trading Card Game','Card Game','Card'],['Survival'],['Horror','Thriller'],['Rogue'],['Platformer'],['Fighter','Fighting'],['Fantasy'],['FPS','Shooter','Shoot'],['MOBA'],['Hack and Slash']]
 
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
-    df=df[['Name','Estimated owners','Peak CCU','Average playtime forever','Tags']]
+    df=df[['Name','Estimated owners','Peak CCU','Average playtime forever','Tags','User score']]
 
     df['Tags'] = df['Tags'].apply(lambda x: replaceNaN(x))
     for i in range(len(generi)):

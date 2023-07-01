@@ -138,5 +138,75 @@ def scatterOwnerTimePerF2P():
 
     fig.show()
 
-scatterOwnerPeakPerF2P()
-scatterOwnerTimePerF2P()
+def assegnazione(x):
+    if x >=80: return "Molto positive"
+    if x >=60: return "Positive"
+    if x >=40: return "Nella media"
+    if x >=20: return "Negative"
+    
+    return "Estremamente negative"
+
+def scatterQualita():
+    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
+    
+    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
+    df['Valutazione'] = df['User score'].apply(lambda x: assegnazione(x))
+    
+
+    df = df[['Estimated owners','Valutazione']].value_counts()
+    df = df.reset_index()
+    df = df.rename(columns={0: 'Occorenze'})
+    df['Size'] = df['Occorenze']*df['Estimated owners']
+    df = df.sort_values('Estimated owners')
+    df['Estimated owners'] = df['Estimated owners'].astype('str')
+    df['Estimated owners'] = df['Estimated owners'].apply(lambda x:estitica(x))
+
+    
+
+    fig = px.scatter(
+            df, 
+            x='Valutazione',
+            y='Estimated owners',
+            color_discrete_sequence=['#d95f02'],
+            size = 'Size'
+            )
+    
+    fig.update_layout(
+        title = "Estimated owners / PlayTime",
+        xaxis_title="Estimated owners",
+        yaxis_title="Ore di gioco",
+
+        plot_bgcolor = '#ffffff',
+        
+        
+        font=dict( 
+            size=17, 
+            color="#171a21" 
+        ),
+
+        xaxis=dict(
+            categoryorder='array', 
+            categoryarray=["Estremamente negative","Negative","Nella media","Positive","Molto positive"]
+        ),
+    )
+    
+    fig.update_xaxes(
+        range=(-0.5,4.5),
+        showgrid=True,
+        gridcolor='#000000',
+
+    )
+
+    fig.update_yaxes(
+        range=(-0.5,12.5),
+        showgrid=True,
+        gridcolor='#000000',
+        zerolinecolor = '#000000',
+        zerolinewidth = 0.1,
+    )
+    
+    fig.show()
+
+scatterQualita()
+#scatterOwnerPeakPerF2P()
+#scatterOwnerTimePerF2P()

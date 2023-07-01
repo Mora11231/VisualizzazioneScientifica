@@ -77,7 +77,7 @@ def tryTree():
     fig = px.treemap(df, path=['title'], values='val')
    
     fig.update_layout(
-        treemapcolorway = ['#67001f','#b2182b','#d6604d','#f4a582'], #defines the colors in the treemap
+        treemapcolorway = ['#67001f','#b2182b','#d6604d','#f4a582'],
         margin = dict(t=50, l=25, r=25, b=25),   
     )
     fig.show()

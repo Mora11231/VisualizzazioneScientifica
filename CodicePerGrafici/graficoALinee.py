@@ -158,5 +158,5 @@ def graficoMediaPrezzoAnni():
 
     fig.show()
 
-#graficoMediaPrezzoAnni()
-#graficoGiochiPerAnno()
+graficoMediaPrezzoAnni()
+graficoGiochiPerAnno()

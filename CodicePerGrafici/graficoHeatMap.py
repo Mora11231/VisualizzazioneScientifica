@@ -92,9 +92,7 @@ def heatMapGeneriGiochi():
     fig = go.Figure(data=heat, layout=layout)
 
     fig.update_layout(
-        xaxis_title = 'Anno',
-        yaxis_title = 'Numero di Giochi',
-        title = 'Numero di giochi per anno',
+        title = 'Relazione con i generi',
         plot_bgcolor = '#ffffff',
         paper_bgcolor = '#c7d5e0',
         
