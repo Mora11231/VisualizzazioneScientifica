@@ -160,7 +160,6 @@ def scatterQualita():
     df = df[['Estimated owners','Valutazione','User score']].value_counts()
     df = df.reset_index()
     df = df.rename(columns={0: 'Occorenze'})
-    print(df)
 
     df['Size'] = df['Occorenze'] *20
     df = df.sort_values('Estimated owners')
