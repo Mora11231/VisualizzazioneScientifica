@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import numpy as np
 
 
 
@@ -154,11 +155,15 @@ def scatterQualita():
     df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
     df['Valutazione'] = df['User score'].apply(lambda x: assegnazione(x))
     
+    df = df[(df['Positive']+df['Negative']) > 20]
+    df = df[df['User score']>0]
 
-    df = df[['Estimated owners','Valutazione']].value_counts()
+
+    df = df[['Estimated owners','Valutazione','User score']].value_counts()
     df = df.reset_index()
     df = df.rename(columns={0: 'Occorenze'})
-    df['Size'] = df['Occorenze']*df['Estimated owners']
+
+    df['Size'] = df['Occorenze'] *20
     df = df.sort_values('Estimated owners')
     df['Estimated owners'] = df['Estimated owners'].astype('str')
     df['Estimated owners'] = df['Estimated owners'].apply(lambda x:estitica(x))
@@ -167,20 +172,22 @@ def scatterQualita():
 
     fig = px.scatter(
             df, 
-            x='Valutazione',
+            x='User score',
             y='Estimated owners',
-            color_discrete_sequence=['#d95f02'],
-            size = 'Size'
+            color_discrete_sequence=['#2c7bb6','#abd9e9','#ffffbf','#fdae61','#d7191c'],
+            color='Valutazione',
+            size='Size',
+            category_orders={'Valutazione': ["Molto positive","Positive","Nella media","Negative","Estremamente negative",]}
             )
     
     fig.update_layout(
+        template = 'plotly_white',
         font_family="Calibri",
         title = "Estimated owners / PlayTime",
         xaxis_title="Estimated owners",
         yaxis_title="Ore di gioco",
 
-        plot_bgcolor = '#ffffff',
-        
+
         
         font=dict( 
             size=17, 
@@ -194,18 +201,14 @@ def scatterQualita():
     )
     
     fig.update_xaxes(
-        range=(-0.5,4.5),
-        showgrid=True,
-        gridcolor='#000000',
+        range=(-1.5,101.5),
 
     )
 
     fig.update_yaxes(
-        range=(-0.5,12.5),
-        showgrid=True,
-        gridcolor='#000000',
-        zerolinecolor = '#000000',
-        zerolinewidth = 0.1,
+        range=(-1.5,12.5),
+        tickvals=np.arange(-1,13,1),
+        ticktext=['0']
     )
     
     fig.show()
