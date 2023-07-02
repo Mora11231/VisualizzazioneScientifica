@@ -27,7 +27,6 @@ def graficoGiochiPerAnno():
         template="plotly_white",
         xaxis_title = 'Anno',
         yaxis_title = 'Numero di rilasci',
-        plot_bgcolor = '#ffffff',
         xaxis=dict(
             tickmode='array',
             tickvals=giochiPerAnno.index[16:-1],
@@ -134,7 +133,7 @@ def graficoMediaPrezzoAnni():
         template="plotly_white",
         font_family="Calibri",
         xaxis_title = 'Anno',
-        yaxis_title = 'Prezzo/Reddito ($)',
+        yaxis_title = '($)',
         xaxis=dict(
             range=(2006.9,2022.1),
             tickmode='array',

@@ -26,31 +26,36 @@ def graficoBarrePerEstimated():
 
     graph1 = go.Bar(
         x=df.index[6:-1],
-        y=df[6:-1]  ,
+        y=df[6:-1],
         marker=dict(
-                color='#2a475e' 
-                ),
+            color='#253494' 
+            ),
         name ="Numero di owner"
         )
     
     graph2 = go.Scatter(
         x=sum_df.index[6:-1],
         y= sum_df[6:-1],
+        line={'width': 4, 'color':'#2c7fb8'},
         marker=dict(
-                color='#66c2a4' 
+                size=12,
+                line={'width': 2, 'color':'#2c7fb8'},
+                color='white' 
+
             ),
         mode="markers+lines",
-        name ="Numero di owner comulativa"
+        name ="Numero di Acqusiti cumulativa"
         )
     
+
     fig.add_trace(graph1)
     fig.add_trace(graph2)
 
     fig.update_layout(
+        template="plotly_white",
         font_family="Calibri",
-        title = "Numero di owner per anno",
         xaxis_title="Anni",
-        yaxis_title="Numero di owner",
+        yaxis_title="Numero di Acquisti",
 
         plot_bgcolor = '#ffffff',
 
@@ -61,13 +66,13 @@ def graficoBarrePerEstimated():
         ),
 
         legend=dict(
-            title = 'Leggenda:',
+            title = 'Legenda:',
             bgcolor='white' 
         ),
         
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color='#000000'
         ),
         yaxis=dict(
             dtick=500000000,
@@ -76,16 +81,19 @@ def graficoBarrePerEstimated():
         
     )
 
-    fig.update_yaxes(
-        showgrid=True,
-        gridcolor='#000000',
-        zerolinecolor = '#000000',
-        zerolinewidth = 0.1,
-        dtick=1000000000
-    )
     fig.update_xaxes(
         showgrid=True,
-        dtick = 1,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
+        
+    )
+
+    fig.update_yaxes(
+        showgrid=True,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
     )
 
     fig.show()
@@ -124,23 +132,23 @@ def diagrammaBarreF2PvsP2P():
     
 
     df = pd.DataFrame(columns = ['P2P', 'F2P'])
-    df['P2P'] = round(series_P2P/(series_P2P+series_F2P)*100,2)
-    df['F2P'] = round(series_F2P/(series_P2P+series_F2P)*100,2)
+    df['P2P'] = round(series_P2P/(series_P2P+series_F2P)*100,1)
+    df['F2P'] = round(series_F2P/(series_P2P+series_F2P)*100,1)
 
     df.reset_index(inplace=True)
     fig = px.bar(df, x=['P2P','F2P'], y='year',
             barmode='stack',
             orientation='h',
             text_auto=True,
-            color_discrete_map={'P2P': '#d95f02', 'F2P': '#1b9e77'}
+            color_discrete_map={'P2P': '#2c7bb6', 'F2P': '#d7191c'}
             )
-    fig.update_traces(textposition="outside")
+    fig.update_traces(textposition="inside")
 
 
     fig.update_layout(
+        template="plotly_white",
         font_family="Calibri",
-        title = "F2P vs P2P",
-        xaxis_title="Videogiochi (%)",
+        xaxis_title="Estimated Users (%)",
         yaxis_title="Anni",
         legend=dict(
             orientation="h",
@@ -149,11 +157,11 @@ def diagrammaBarreF2PvsP2P():
             xanchor="left",
             x=0.01
         ),
-        plot_bgcolor = '#ffffff',
-        legend_title = "Categorie giochi",
+
+        legend_title = "Categoria",
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="#000000" 
         ),
         xaxis=dict(
             tickmode='array',
@@ -180,11 +188,11 @@ def uscitePerMese():
 
 
     fig = go.Figure()
-    series = df['month'].value_counts().sort_index()
+    series = df['month'].value_counts(normalize=True).sort_index()
 
     graph = go.Bar(
             x=series.index,
-            y=series/sum(series)*100,
+            y=series,
             marker=dict(
                 color='#2a475e' 
             )
@@ -195,16 +203,13 @@ def uscitePerMese():
 
     fig.update_layout(
         font_family="Calibri",
-        title = "Numero di videogiochi uscite per mese",
-        xaxis_title="Mesi",
-        yaxis_title="Percentuale giochi usciti(%)",
+        template='simple_white',
+        yaxis_title="Frequenza Relativa",
         xaxis=dict(
             tickmode='array',
             tickvals=series.index,
             ticktext=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"]
         ),
-
-        plot_bgcolor = '#ffffff',
         
         font=dict( 
             size=17, 
@@ -212,12 +217,21 @@ def uscitePerMese():
         )
     )
 
+
+    fig.update_xaxes(
+
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
+        
+    )
+
     fig.update_yaxes(
+
         showgrid=True,
-        dtick = 1,
-        gridcolor='#000000',
-        zerolinecolor = '#000000',
-        zerolinewidth = 0.1,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
     )
     fig.show() 
 
@@ -261,15 +275,15 @@ def diagrammaBarreF2PvsP2PAvgTime():
             barmode='stack',
             orientation='h',
             text_auto=True,
-            color_discrete_map={'P2P': '#d95f02', 'F2P': '#1b9e77'}
+            color_discrete_map={'P2P': '#2c7bb6', 'F2P': '#d7191c'}
             )
-    fig.update_traces(textposition="outside")
+    fig.update_traces(textposition="inside")
 
 
     fig.update_layout(
+        template="plotly_white",
         font_family="Calibri",
-        title = "F2P vs P2P AVG TIME FOREVER * E_U",
-        xaxis_title="Videogiochi (%)",
+        xaxis_title="Total Play Time (%)",
         yaxis_title="Anni",
         legend=dict(
             orientation="h",
@@ -278,11 +292,11 @@ def diagrammaBarreF2PvsP2PAvgTime():
             xanchor="left",
             x=0.01
         ),
-        plot_bgcolor = '#ffffff',
-        legend_title = "Categorie giochi",
+
+        legend_title = "Categoria",
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="#000000" 
         ),
         xaxis=dict(
             tickmode='array',
@@ -331,15 +345,16 @@ def diagrammaBarreF2PvsP2PPeakCCU():
             barmode='stack',
             orientation='h',
             text_auto=True,
-            color_discrete_map={'P2P': '#d95f02', 'F2P': '#1b9e77'}
+            color_discrete_map={'P2P': '#2c7bb6', 'F2P': '#d7191c'}
             )
-    fig.update_traces(textposition="outside")
+    fig.update_traces(textposition="inside")
 
 
     fig.update_layout(
+        template='plotly_white',
         font_family="Calibri",
         title = "F2P vs P2P PEAK CCU",
-        xaxis_title="Videogiochi (%)",
+        xaxis_title="Peak CCU (%)",
         yaxis_title="Anni",
         legend=dict(
             orientation="h",
@@ -348,11 +363,9 @@ def diagrammaBarreF2PvsP2PPeakCCU():
             xanchor="left",
             x=0.01
         ),
-        plot_bgcolor = '#ffffff',
-        legend_title = "Categorie giochi",
+        legend_title = "Categoria",
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
         ),
         xaxis=dict(
             tickmode='array',
@@ -374,5 +387,5 @@ def diagrammaBarreF2PvsP2PPeakCCU():
 #graficoBarrePerEstimated()
 #diagrammaBarreF2PvsP2P()
 #uscitePerMese()
-diagrammaBarreF2PvsP2PAvgTime()
+#diagrammaBarreF2PvsP2PAvgTime()
 diagrammaBarreF2PvsP2PPeakCCU()
