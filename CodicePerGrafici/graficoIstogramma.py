@@ -30,23 +30,30 @@ def divisioneFascieDiPrezzo():
 
     fig.update_layout(
         font_family="Calibri",
+        template="plotly_white",
         title = "Divisione delle fascie di prezzo ",
         xaxis_title="Fasce di prezzo",
         yaxis_title="Percentuale giochi(%)",
-
-        plot_bgcolor = '#ffffff',
         
         
         font=dict( 
             size=17, 
-            color="#171a21" 
+            color="#000000" 
         )
     )
     fig.update_yaxes(
+       showgrid=True,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
+    )
+
+    fig.update_xaxes(
         showgrid=True,
-        gridcolor='#000000',
-        zerolinecolor = '#000000',
-        zerolinewidth = 0.1,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
+
     )
 
     fig.update_layout(bargap=0.1)

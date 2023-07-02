@@ -45,35 +45,34 @@ def scatterOwnerPeakPerF2P():
 
     fig.update_layout(
         font_family="Calibri",
+        template="plotly_white",
         title = "Estimated owner / Peak CCU",
         xaxis_title="Estimated owners",
         yaxis_title="Peak CCU",
-
-        plot_bgcolor = '#ffffff',
         
         
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="#000000" 
         ),
 
-        xaxis=dict(
-            tickmode='array',
-        ),
     )
     
     fig.update_xaxes(
         range=(-0.5,11.5),
         showgrid=True,
-        gridcolor='#000000',
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
     )
 
     fig.update_yaxes(
         range=(0,310000),
+        dtick = 10000,
         showgrid=True,
-        gridcolor='#000000',
-        zerolinecolor = '#000000',
-        zerolinewidth = 0.1,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black",
     )
     fig.update_traces(marker={'size': 12})
 
@@ -106,16 +105,15 @@ def scatterOwnerTimePerF2P():
 
     fig.update_layout(
         font_family="Calibri",
+        template="plotly_white",
         title = "Estimated owners / PlayTime",
         xaxis_title="Estimated owners",
         yaxis_title="Ore di gioco",
-
-        plot_bgcolor = '#ffffff',
         
         
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="#000000" 
         ),
 
         xaxis=dict(
@@ -126,16 +124,19 @@ def scatterOwnerTimePerF2P():
     fig.update_xaxes(
         range=(-0.5,10.5),
         showgrid=True,
-        gridcolor='#000000',
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black",
 
     )
 
     fig.update_yaxes(
+        dtick =1,
         range=(-0.5,10),
         showgrid=True,
-        gridcolor='#000000',
-        zerolinecolor = '#000000',
-        zerolinewidth = 0.1,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black",
     )
     fig.update_traces(marker={'size': 12})
 
@@ -190,8 +191,8 @@ def scatterQualita():
 
         
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="#000000" 
         ),
 
         xaxis=dict(
@@ -202,17 +203,25 @@ def scatterQualita():
     
     fig.update_xaxes(
         range=(-1.5,101.5),
+        showgrid=True,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
 
     )
 
     fig.update_yaxes(
-        range=(-1.5,12.5),
+        range=(-1.5,8.5),
         tickvals=np.arange(-1,13,1),
-        ticktext=['0']
+        ticktext=['0'],
+        showgrid=True,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
     )
     
     fig.show()
 
-scatterQualita()
+#scatterQualita()
 #scatterOwnerPeakPerF2P()
 #scatterOwnerTimePerF2P()

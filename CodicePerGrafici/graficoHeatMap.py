@@ -44,27 +44,26 @@ def heatMapGeneriGiochi():
 
     fig.update_layout(
         font_family="Calibri",
+        template="plotly_white",
         title = 'Relazione con i generi',
-        plot_bgcolor = '#ffffff',
-        paper_bgcolor = '#c7d5e0',
         
 
         font=dict( 
             size=17, 
-            color="#171a21" 
+            color="#000000" 
         )
 
     )
 
     fig.update_xaxes(
-        showgrid=False,
-        dtick = 1,
+        showgrid=True,
+        gridwidth=2,
 
     )
 
     fig.update_yaxes(
-        showgrid=False,
-        zerolinecolor = '#ffffff',
+        showgrid=True,
+        gridwidth=2,
     )
 
     colorscale = [[0, '#542788'], [0.25, '#998ec3'],[0.75,'#f1a340'], [1, '#b35806']]

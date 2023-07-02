@@ -21,40 +21,6 @@ def checkCoop(x):
 def checkMultiSingle(x):
     return (checkMultiplayer(x) & checkSingleplayer(x))
 
-def sunBurstPerCovid():
-    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
-    df = df[['Name','Release date','Categories']]
-
-    df['Release date'] = df['Release date'].astype('datetime64[ns]')
-    df['Categories'] = df['Categories'].apply(lambda x: replaceNaN(x))
-
-    df['Multi'] = df['Categories'].apply(lambda x: checkMultiplayer(x))
-    df['Single'] = df['Categories'].apply(lambda x: checkSingleplayer(x))
-    df['Coop'] = df['Categories'].apply(lambda x: checkCoop(x))
-    df['MultiSingle'] = df['Categories'].apply(lambda x: checkMultiSingle(x))
-
-
-    pre = date(2020,1,1)
-    post = date(2022,1,1)
-
-    pre_covid = df[df['Release date'].dt.date < pre]
-    covid = df[(df['Release date'].dt.date >= pre) & (df['Release date'].dt.date < post) ]
-    post_covid = df[df['Release date'].dt.date >= post]
-
-    data = dict(
-        periodo=['Pre-Covid','Pre-Covid','Pre-Covid','DuranteCovid','DuranteCovid','DuranteCovid', 'Covid','Covid','Covid'],
-        generi=['SiglePlayer','Multiplayer','Coop','SiglePlayer','Multiplayer','Coop','SiglePlayer','Multiplayer','Coop'],
-        value = [sum(pre_covid.Single),sum(pre_covid.Multi),sum(pre_covid.Coop),sum(covid.Single),sum(covid.Multi),sum(covid.Coop),sum(post_covid.Single),sum(post_covid.Multi),sum(post_covid.Coop)],
-        
-    )
-    color_discrete_sequence=['#542788', '#998ec3', '#d8daeb', '#fee0b6','#f1a340','#b35806','#fee0b6','#f1a340','#b35806']
-    fig = px.sunburst(
-        data,
-        path=['periodo','generi'],
-        values='value'
-    )
-    
-    fig.show()
 
 
 def sunBurstPerCovidV2():
@@ -95,17 +61,11 @@ def sunBurstPerCovidV2():
     fig.update_layout(
         font_family="Calibri",
         title = "Divisione dei giochi in periodi di covid",
-
-        plot_bgcolor = '#ffffff',
-
-        legend=dict(
-            title = 'Leggenda:',
-            bgcolor='white' 
-        ),
+        template="plotly_white",
         
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="#000000" 
         ),
         
     )

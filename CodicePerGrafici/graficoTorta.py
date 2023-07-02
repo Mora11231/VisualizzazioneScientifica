@@ -11,14 +11,13 @@ def graficoTortaF2PvsP2P():
     fig.update_layout(
         font_family="Calibri",
         title = "F2P / P2P",
-
-        plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#ffffff',
+        template="plotly_white",
+        
         legend_title = "Leggenda:",
         
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="#000000" 
         )
     )
 
@@ -48,18 +47,17 @@ def graficoTortaAppEGiochi():
     fig.update_layout(
         font_family="Calibri",
         title = "Applicazioni / Giochi",
-
-        plot_bgcolor = '#c7d5e0',
-        paper_bgcolor = '#ffffff',
+        template="plotly_white",
+        
         legend_title = "Leggenda:",
         
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="#000000" 
         )
     )
 
     fig.show()
 
 
-graficoTortaF2PvsP2P()
+graficoTortaAppEGiochi()
