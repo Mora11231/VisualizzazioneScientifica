@@ -9,17 +9,18 @@ def graficoTortaF2PvsP2P():
     fig = px.pie(values=serie,names=['F2P','P2P'],color_discrete_sequence=['#1b9e77','#d95f02'])
 
     fig.update_layout(
-            title = "F2P / P2P",
+        font_family="Calibri",
+        title = "F2P / P2P",
 
-            plot_bgcolor = '#c7d5e0',
-            paper_bgcolor = '#ffffff',
-            legend_title = "Leggenda:",
-            
-            font=dict( 
-                size=17, 
-                color="#171a21" 
-            )
+        plot_bgcolor = '#c7d5e0',
+        paper_bgcolor = '#ffffff',
+        legend_title = "Leggenda:",
+        
+        font=dict( 
+            size=17, 
+            color="#171a21" 
         )
+    )
 
 
     fig.show()
@@ -45,6 +46,7 @@ def graficoTortaAppEGiochi():
     fig = px.pie(values=(n_app,n_giochi),names=['APP','Giochi'],color_discrete_sequence=['#7b3294','#008837'])
 
     fig.update_layout(
+        font_family="Calibri",
         title = "Applicazioni / Giochi",
 
         plot_bgcolor = '#c7d5e0',

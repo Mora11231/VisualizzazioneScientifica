@@ -43,6 +43,7 @@ def scatterOwnerPeakPerF2P():
         )
 
     fig.update_layout(
+        font_family="Calibri",
         title = "Estimated owner / Peak CCU",
         xaxis_title="Estimated owners",
         yaxis_title="Peak CCU",
@@ -103,6 +104,7 @@ def scatterOwnerTimePerF2P():
         )
 
     fig.update_layout(
+        font_family="Calibri",
         title = "Estimated owners / PlayTime",
         xaxis_title="Estimated owners",
         yaxis_title="Ore di gioco",
@@ -172,6 +174,7 @@ def scatterQualita():
             )
     
     fig.update_layout(
+        font_family="Calibri",
         title = "Estimated owners / PlayTime",
         xaxis_title="Estimated owners",
         yaxis_title="Ore di gioco",

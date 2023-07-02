@@ -47,6 +47,7 @@ def treeMapEstimatedOwner():
         ))
     
     fig.update_layout(
+        font_family="Calibri",  
         title = "Categoria di giochi piu popolari per Estimated User",
         plot_bgcolor = '#ffffff',
 
@@ -94,6 +95,7 @@ def treeMapPeak():
         ))
     
     fig.update_layout(
+        font_family="Calibri",
         title = "Categoria di giochi piu popolari per Peak CCU",
         plot_bgcolor = '#ffffff',
 
@@ -140,6 +142,7 @@ def treeMapAvgTime():
         ))
     
     fig.update_layout(
+        font_family="Calibri",
         title = "Categoria di giochi piu popolari per Avg Time",
         plot_bgcolor = '#ffffff',
 

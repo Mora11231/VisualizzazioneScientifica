@@ -92,6 +92,7 @@ def heatMapGeneriGiochi():
     fig = go.Figure(data=heat, layout=layout)
 
     fig.update_layout(
+        font_family="Calibri",
         title = 'Relazione con i generi',
         plot_bgcolor = '#ffffff',
         paper_bgcolor = '#c7d5e0',

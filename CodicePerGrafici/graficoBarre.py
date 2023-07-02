@@ -47,6 +47,7 @@ def graficoBarrePerEstimated():
     fig.add_trace(graph2)
 
     fig.update_layout(
+        font_family="Calibri",
         title = "Numero di owner per anno",
         xaxis_title="Anni",
         yaxis_title="Numero di owner",
@@ -137,6 +138,7 @@ def diagrammaBarreF2PvsP2P():
 
 
     fig.update_layout(
+        font_family="Calibri",
         title = "F2P vs P2P",
         xaxis_title="Videogiochi (%)",
         yaxis_title="Anni",
@@ -192,6 +194,7 @@ def uscitePerMese():
     fig.add_trace(graph)
 
     fig.update_layout(
+        font_family="Calibri",
         title = "Numero di videogiochi uscite per mese",
         xaxis_title="Mesi",
         yaxis_title="Percentuale giochi usciti(%)",
@@ -264,6 +267,7 @@ def diagrammaBarreF2PvsP2PAvgTime():
 
 
     fig.update_layout(
+        font_family="Calibri",
         title = "F2P vs P2P AVG TIME FOREVER * E_U",
         xaxis_title="Videogiochi (%)",
         yaxis_title="Anni",
@@ -333,6 +337,7 @@ def diagrammaBarreF2PvsP2PPeakCCU():
 
 
     fig.update_layout(
+        font_family="Calibri",
         title = "F2P vs P2P PEAK CCU",
         xaxis_title="Videogiochi (%)",
         yaxis_title="Anni",

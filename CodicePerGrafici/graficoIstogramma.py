@@ -14,6 +14,7 @@ def divisioneFascieDiPrezzo():
         )
     
     fig.update_layout(
+        font_family="Calibri",
         xaxis=dict(
             dtick=5,
             title=dict(
@@ -28,6 +29,7 @@ def divisioneFascieDiPrezzo():
     )
 
     fig.update_layout(
+        font_family="Calibri",
         title = "Divisione delle fascie di prezzo ",
         xaxis_title="Fasce di prezzo",
         yaxis_title="Percentuale giochi(%)",

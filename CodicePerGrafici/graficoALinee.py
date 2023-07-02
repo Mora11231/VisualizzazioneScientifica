@@ -18,48 +18,56 @@ def graficoGiochiPerAnno():
             x=giochiPerAnno.index[16:-1],
             y= giochiPerAnno[16:-1],
             mode="markers+lines",
-            marker=dict(
-                color='#2a475e',
-                size = 17
-            )
         )
 
     fig = go.Figure()
     fig.add_trace(graph1)
 
     fig.update_layout(
+        template="plotly_white",
         xaxis_title = 'Anno',
-        yaxis_title = 'Numero di Giochi',
-        title = 'Numero di giochi per anno',
+        yaxis_title = 'Numero di rilasci',
         plot_bgcolor = '#ffffff',
         xaxis=dict(
             tickmode='array',
             tickvals=giochiPerAnno.index[16:-1],
-            ticktext=[">=2013",2014,2015,2016,2017,2018,2019,2020,2021,2022]
+            ticktext=["<= 2013",2014,2015,2016,2017,2018,2019,2020,2021,2022]
         ),
         yaxis=dict(
             range=(0,11000)
         ),
 
         font=dict( 
-            size=17, 
+            size=15, 
             color="#171a21" 
         )
 
     )
 
-    fig.update_xaxes(
-        showgrid=False,
-        dtick = 1,
 
+    fig.update_xaxes(
+        showgrid=True,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
+        
     )
 
     fig.update_yaxes(
         showgrid=True,
-        dtick = 1000,
-        gridcolor='#000000',
-        zerolinecolor = '#000000',
-        zerolinewidth = 0.1,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
+    )
+
+
+    fig.update_traces(
+        line={'width': 4, 'color':'#2a475e'},
+        marker=dict(
+            size=12,
+            line={'width':2, 'color':'#2a475e'},
+            color='white'
+        )
     )
 
     fig.show()
@@ -81,9 +89,12 @@ def graficoMediaPrezzoAnni():
         x=p2p_series.index[:-1],
         y=p2p_series.Price[:-1],
         mode="markers+lines",
-        name='Prezzo Medio Senza F2P',
+        name='Prezzo Medio VG, esclusi F2P ($)',
+        line={'width': 4, 'color':'#993404'},
         marker=dict(
-                color='#993404' 
+                size=8,
+                line={'width':2, 'color':'#993404'},
+                color='white'
             )
     )
 
@@ -92,21 +103,27 @@ def graficoMediaPrezzoAnni():
         x=series.index[:-1],
         y=series.Price[:-1],
         mode="markers+lines",
-        name='Prezzo Medio CON F2P',
+        name='Prezzo Medio VG ($)',
+        line={'width': 4, 'color':'#d95f0e'},
         marker=dict(
-                color='#d95f0e' 
-            )
+            size=8,
+            line={'width':2, 'color':'#d95f0e'},
+            color='white'
+        )
     )
 
     graph2 = go.Scatter(
         x=ser.index,
         y=ser,
         mode="markers+lines",
-        name='income (/10 000)',
+        name='Reddito mediano (10k$)',
+        line={'width': 4, 'color':'#fe9929'},
         marker=dict(
-                color='#fe9929',
-               
-            )
+            size=8,
+            line={'width':2, 'color':'#fe9929'},
+            color='white'
+        )
+        
     )
    
     fig = fig.add_trace(graph)
@@ -114,10 +131,10 @@ def graficoMediaPrezzoAnni():
     fig = fig.add_trace(graph2)
 
     fig.update_layout(
+        template="plotly_white",
+        font_family="Calibri",
         xaxis_title = 'Anno',
-        yaxis_title = '$',
-        title = 'Prezzo medio dei giochi negli anni con stipendio medio(USA)',
-        plot_bgcolor = '#ffffff',
+        yaxis_title = 'Prezzo/Reddito ($)',
         xaxis=dict(
             range=(2006.9,2022.1),
             tickmode='array',
@@ -127,36 +144,40 @@ def graficoMediaPrezzoAnni():
         yaxis=dict(
             range=(5,17),
             tickmode='array',
-            tickvals=np.arange(5.5,17,0.5),
-            ticktext=np.arange(5.5,17,0.5)
+            tickvals=np.arange(0,17,1),
+            ticktext=np.arange(0,17,1)
         ),
 
         legend=dict(
-            title = 'Leggenda:',
-            bgcolor='white' 
+            title = 'Legenda:'
         ),
 
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15, 
+            color="black"
         )
 
     )
 
     fig.update_xaxes(
         showgrid=True,
-        dtick = 1,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
+        
     )
 
     fig.update_yaxes(
+        dtick=1,
         showgrid=True,
-        gridcolor='#000000',
-        zerolinecolor = '#000000',
-        zerolinewidth = 0.1,
+        gridwidth=2,
+        linewidth=2,
+        linecolor="black"
     )
-
-
+    fig.update_traces(
+        line={'width': 5}
+    )
     fig.show()
 
 graficoMediaPrezzoAnni()
-graficoGiochiPerAnno()
+#graficoGiochiPerAnno()

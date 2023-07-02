@@ -54,8 +54,6 @@ def creazioneCSVConF2P():
     elaborato_df['User score'] = elaborato_df['User score'].apply(lambda x: int(x))
     
     elaborato_df.to_csv("CodicePerGrafici/fileAggiornatoF2P.csv",index=False)
-creazioneCSVConF2P()
-
 
 
 def replaceNaN(x):
@@ -84,6 +82,6 @@ def EstrazioneGeneri():
 
    
 
-#creazioneCSVCorretto()
-#creazioneCSVConF2P()
+creazioneCSVCorretto()
+creazioneCSVConF2P()
 EstrazioneGeneri()
