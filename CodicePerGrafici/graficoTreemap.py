@@ -14,7 +14,7 @@ def treeMapEstimatedOwner():
     df=df[df['User score']>=80]
     df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
     
-    generi = ["Estimated owners","Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
+    generi = ["Estimated owners","Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]
 
     df = df[generi]
 
@@ -27,13 +27,13 @@ def treeMapEstimatedOwner():
     
   
 
-    name = ["Tags per Estimated user"]
+    name = ["Estimated Owners"]
     parent = [""]
     val = [0]
 
     for j in df.index:
             name.append(j)
-            parent.append("Tags per Estimated user")
+            parent.append("Estimated Owners")
             val.append(df[j])
 
     fig = go.Figure(go.Treemap(
@@ -41,19 +41,19 @@ def treeMapEstimatedOwner():
         parents=parent,
         values=val,
         marker=dict(
-            colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            colorscale = 'viridis'
         )
 
         ))
     
     fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",  
-        title = "Categoria di giochi piu popolari per Estimated User",
         template="plotly_white",
 
         font=dict( 
-            size=15, 
-            color="#000000" 
+            size=25, 
         ),
        
     )
@@ -64,7 +64,7 @@ def treeMapPeak():
     df = pd.read_csv('CodicePerGrafici/FileAggiornatoTags.csv')
     df=df[df['User score']>=80]
     
-    generi = ["Peak CCU","Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
+    generi = ["Peak CCU","Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]
 
     df = df[generi]
 
@@ -76,31 +76,32 @@ def treeMapPeak():
     df = df.sum()[1:]
     
   
-    name = ["Tags per Peak CCU"]
+    name = ["Peak CCU"]
     parent = [""]
     val = [0]
 
     for j in df.index:
             name.append(j)
-            parent.append("Tags per Peak CCU")
+            parent.append("Peak CCU")
             val.append(df[j])
     fig = go.Figure(go.Treemap(
         labels=name,
         parents=parent,
         values=val,
         marker=dict(
-            colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            colorscale = 'viridis'
         )
 
         ))
     
     fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",
-        title = "Categoria di giochi piu popolari per Peak CCU",
         template="plotly_white",
 
         font=dict( 
-            size=15,
+            size=25,
         ),
        
     )
@@ -111,7 +112,7 @@ def treeMapAvgTime():
     df = pd.read_csv('CodicePerGrafici/FileAggiornatoTags.csv')
     df=df[df['User score']>=80]
     
-    generi = ["Average playtime forever","Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
+    generi = ["Average playtime forever","Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]
 
     df = df[generi]
 
@@ -123,30 +124,31 @@ def treeMapAvgTime():
     df = df.sum()[1:]
     
 
-    name = ["Tags per Average playtime forever"]
+    name = ["Average Play Time"]
     parent = [""]
     val = [0]
 
     for j in df.index:
             name.append(j)
-            parent.append("Tags per Average playtime forever")
+            parent.append("Average Play Time")
             val.append(df[j])
     fig = go.Figure(go.Treemap(
         labels=name,
         parents=parent,
         values=val,
         marker=dict(
-            colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            colorscale = 'viridis'
         )
         ))
     
     fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",
-        title = "Categoria di giochi piu popolari per Avg Time",
         template="plotly_white",
         
         font=dict( 
-            size=15, 
+            size=25, 
         ),
        
     )
@@ -155,6 +157,6 @@ def treeMapAvgTime():
 
 
 
-#treeMapEstimatedOwner()
-#treeMapPeak()
+treeMapEstimatedOwner()
+treeMapPeak()
 treeMapAvgTime()

@@ -40,7 +40,7 @@ def scatterOwnerPeakPerF2P():
         df, 
         x='Estimated owners',
         y='Peak CCU',
-        color_discrete_sequence=['#d95f02']
+        color_discrete_sequence=['#648FFF']
         )
 
     fig.update_layout(
@@ -52,8 +52,7 @@ def scatterOwnerPeakPerF2P():
         
         
         font=dict( 
-            size=15, 
-            color="#000000" 
+            size=15,
         ),
 
     )
@@ -74,7 +73,7 @@ def scatterOwnerPeakPerF2P():
         linewidth=2,
         linecolor="black",
     )
-    fig.update_traces(marker={'size': 12})
+    fig.update_traces(marker={'size': 10})
 
     fig.show()
 
@@ -100,7 +99,7 @@ def scatterOwnerTimePerF2P():
         df, 
         x='Estimated owners',
         y='Average playtime forever',
-        color_discrete_sequence=['#d95f02']
+        color_discrete_sequence=['#648FFF']
         )
 
     fig.update_layout(
@@ -113,7 +112,6 @@ def scatterOwnerTimePerF2P():
         
         font=dict( 
             size=15, 
-            color="#000000" 
         ),
 
         xaxis=dict(
@@ -223,5 +221,5 @@ def scatterQualita():
     fig.show()
 
 #scatterQualita()
-#scatterOwnerPeakPerF2P()
-#scatterOwnerTimePerF2P()
+scatterOwnerPeakPerF2P()
+scatterOwnerTimePerF2P()

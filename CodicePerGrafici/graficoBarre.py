@@ -28,7 +28,7 @@ def graficoBarrePerEstimated():
         x=df.index[6:-1],
         y=df[6:-1],
         marker=dict(
-            color='#253494' 
+            color='#785EF0' 
             ),
         name ="Numero di owner"
         )
@@ -36,10 +36,10 @@ def graficoBarrePerEstimated():
     graph2 = go.Scatter(
         x=sum_df.index[6:-1],
         y= sum_df[6:-1],
-        line={'width': 4, 'color':'#2c7fb8'},
+        line={'width': 4, 'color':'#648FFF'},
         marker=dict(
                 size=12,
-                line={'width': 2, 'color':'#2c7fb8'},
+                line={'width': 2, 'color':'#648FFF'},
                 color='white' 
 
             ),
@@ -57,22 +57,18 @@ def graficoBarrePerEstimated():
         xaxis_title="Anni",
         yaxis_title="Numero di Acquisti",
 
-        plot_bgcolor = '#ffffff',
-
         xaxis=dict(
             tickmode='array',
             tickvals=df.index[6:-1],
-            ticktext=[">=2003",2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
+            ticktext=["<=2003",2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
         ),
 
         legend=dict(
             title = 'Legenda:',
-            bgcolor='white' 
         ),
         
         font=dict( 
             size=15, 
-            color='#000000'
         ),
         yaxis=dict(
             dtick=500000000,
@@ -140,7 +136,7 @@ def diagrammaBarreF2PvsP2P():
             barmode='stack',
             orientation='h',
             text_auto=True,
-            color_discrete_map={'P2P': '#2c7bb6', 'F2P': '#d7191c'}
+            color_discrete_map={'P2P': '#FFB000', 'F2P': '#785EF0'}
             )
     fig.update_traces(textposition="inside")
 
@@ -194,7 +190,7 @@ def uscitePerMese():
             x=series.index,
             y=series,
             marker=dict(
-                color='#2a475e' 
+                color='#785EF0' 
             )
             
         )
@@ -212,8 +208,7 @@ def uscitePerMese():
         ),
         
         font=dict( 
-            size=17, 
-            color="#171a21" 
+            size=15
         )
     )
 
@@ -275,7 +270,7 @@ def diagrammaBarreF2PvsP2PAvgTime():
             barmode='stack',
             orientation='h',
             text_auto=True,
-            color_discrete_map={'P2P': '#2c7bb6', 'F2P': '#d7191c'}
+            color_discrete_map={'P2P': '#FFB000', 'F2P': '#785EF0'}
             )
     fig.update_traces(textposition="inside")
 
@@ -345,7 +340,7 @@ def diagrammaBarreF2PvsP2PPeakCCU():
             barmode='stack',
             orientation='h',
             text_auto=True,
-            color_discrete_map={'P2P': '#2c7bb6', 'F2P': '#d7191c'}
+            color_discrete_map={'P2P': '#FFB000', 'F2P': '#785EF0'}
             )
     fig.update_traces(textposition="inside")
 
@@ -353,7 +348,6 @@ def diagrammaBarreF2PvsP2PPeakCCU():
     fig.update_layout(
         template='plotly_white',
         font_family="Calibri",
-        title = "F2P vs P2P PEAK CCU",
         xaxis_title="Peak CCU (%)",
         yaxis_title="Anni",
         legend=dict(
@@ -384,8 +378,8 @@ def diagrammaBarreF2PvsP2PPeakCCU():
     
     fig.show()
 
-#graficoBarrePerEstimated()
-#diagrammaBarreF2PvsP2P()
-#uscitePerMese()
-#diagrammaBarreF2PvsP2PAvgTime()
+graficoBarrePerEstimated()
+diagrammaBarreF2PvsP2P()
+uscitePerMese()
+diagrammaBarreF2PvsP2PAvgTime()
 diagrammaBarreF2PvsP2PPeakCCU()

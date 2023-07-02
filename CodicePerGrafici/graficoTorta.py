@@ -5,19 +5,18 @@ def graficoTortaF2PvsP2P():
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
  
     serie = df.F2P.value_counts()
-
-    fig = px.pie(values=serie,names=['F2P','P2P'],color_discrete_sequence=['#1b9e77','#d95f02'])
+    
+    fig = px.pie(values=serie,names=['F2P','P2P'],color_discrete_sequence=['#785EF0','#FFB000'])
 
     fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",
-        title = "F2P / P2P",
         template="plotly_white",
         
-        legend_title = "Leggenda:",
+        legend_title = "Legenda:",
         
         font=dict( 
             size=15, 
-            color="#000000" 
         )
     )
 
@@ -42,18 +41,18 @@ def graficoTortaAppEGiochi():
     n_app = sum(df['App'])
     n_giochi = len(df)-n_app
 
-    fig = px.pie(values=(n_app,n_giochi),names=['APP','Giochi'],color_discrete_sequence=['#7b3294','#008837'])
+    fig = px.pie(values=(n_app,n_giochi),names=['APP','Giochi'],color_discrete_sequence=['#785EF0','#FFB000'])
 
     fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",
-        title = "Applicazioni / Giochi",
         template="plotly_white",
         
-        legend_title = "Leggenda:",
+        legend_title = "Legenda:",
         
         font=dict( 
-            size=15, 
-            color="#000000" 
+            size=25,
+            color='white'
         )
     )
 
@@ -61,3 +60,4 @@ def graficoTortaAppEGiochi():
 
 
 graficoTortaAppEGiochi()
+#graficoTortaF2PvsP2P()

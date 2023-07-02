@@ -10,7 +10,7 @@ def replaceNaN(x):
 
 def heatMapGeneriGiochi():
     df = pd.read_csv("CodicePerGrafici/fileAggiornatoTags.csv")
-    generi = ["Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]
+    generi = ["Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]
    
     data=[[]]
 
@@ -26,7 +26,6 @@ def heatMapGeneriGiochi():
     data=data[1:]
 
     layout = go.Layout(
-        title = 'indice di correlazione tra generi',
         xaxis = dict(
             tickmode = 'linear'
         )
@@ -45,28 +44,22 @@ def heatMapGeneriGiochi():
     fig.update_layout(
         font_family="Calibri",
         template="plotly_white",
-        title = 'Relazione con i generi',
         
-
         font=dict( 
-            size=17, 
-            color="#000000" 
+            size=15, 
         )
 
     )
 
     fig.update_xaxes(
-        showgrid=True,
-        gridwidth=2,
-
+        showgrid=False,
     )
 
     fig.update_yaxes(
-        showgrid=True,
-        gridwidth=2,
+        showgrid=False,
     )
 
-    colorscale = [[0, '#542788'], [0.25, '#998ec3'],[0.75,'#f1a340'], [1, '#b35806']]
+    colorscale = 'viridis'
     fig.update_traces(
         colorscale=colorscale,
         )

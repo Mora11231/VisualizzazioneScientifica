@@ -24,6 +24,7 @@ def graficoGiochiPerAnno():
     fig.add_trace(graph1)
 
     fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
         template="plotly_white",
         xaxis_title = 'Anno',
         yaxis_title = 'Numero di rilasci',
@@ -38,7 +39,6 @@ def graficoGiochiPerAnno():
 
         font=dict( 
             size=15, 
-            color="#171a21" 
         )
 
     )
@@ -61,10 +61,10 @@ def graficoGiochiPerAnno():
 
 
     fig.update_traces(
-        line={'width': 4, 'color':'#2a475e'},
+        line={'width': 4, 'color':'#648FFF'},
         marker=dict(
             size=12,
-            line={'width':2, 'color':'#2a475e'},
+            line={'width':2, 'color':'#648FFF'},
             color='white'
         )
     )
@@ -89,10 +89,10 @@ def graficoMediaPrezzoAnni():
         y=p2p_series.Price[:-1],
         mode="markers+lines",
         name='Prezzo Medio VG, esclusi F2P ($)',
-        line={'width': 4, 'color':'#993404'},
+        line={'width': 4, 'color':'#648FFF'},
         marker=dict(
                 size=8,
-                line={'width':2, 'color':'#993404'},
+                line={'width':2, 'color':'#648FFF'},
                 color='white'
             )
     )
@@ -103,10 +103,10 @@ def graficoMediaPrezzoAnni():
         y=series.Price[:-1],
         mode="markers+lines",
         name='Prezzo Medio VG ($)',
-        line={'width': 4, 'color':'#d95f0e'},
+        line={'width': 4, 'color':'#785EF0'},
         marker=dict(
             size=8,
-            line={'width':2, 'color':'#d95f0e'},
+            line={'width':2, 'color':'#785EF0'},
             color='white'
         )
     )
@@ -116,10 +116,10 @@ def graficoMediaPrezzoAnni():
         y=ser,
         mode="markers+lines",
         name='Reddito mediano (10k$)',
-        line={'width': 4, 'color':'#fe9929'},
+        line={'width': 4, 'color':'#DC267F'},
         marker=dict(
             size=8,
-            line={'width':2, 'color':'#fe9929'},
+            line={'width':2, 'color':'#DC267F'},
             color='white'
         )
         
@@ -179,4 +179,4 @@ def graficoMediaPrezzoAnni():
     fig.show()
 
 graficoMediaPrezzoAnni()
-#graficoGiochiPerAnno()
+graficoGiochiPerAnno()

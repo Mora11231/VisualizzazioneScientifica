@@ -4,7 +4,7 @@ from wordcloud import WordCloud
 
 def graficoWordGeneri():
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoTags.csv')
-    df = df[["Action","Racing","SexualContent","MMO","Sim","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","HackSlash"]]
+    df = df[["Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]]
 
     df = df.sum()
     
