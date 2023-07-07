@@ -6,7 +6,7 @@ def graficoTortaF2PvsP2P():
  
     serie = df.F2P.value_counts()
     
-    fig = px.pie(values=serie,names=['P2P','F2P'],color_discrete_sequence=['#785EF0','#FFB000'])
+    fig = px.pie(values=serie,names=['P2P','F2P'],color_discrete_sequence=['#FFB000','#785EF0'])
 
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
@@ -16,7 +16,8 @@ def graficoTortaF2PvsP2P():
         legend_title = "Legenda:",
         
         font=dict( 
-            size=15, 
+            color='white',
+            size=25, 
         )
     )
 

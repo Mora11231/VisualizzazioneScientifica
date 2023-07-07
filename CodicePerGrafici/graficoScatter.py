@@ -146,7 +146,7 @@ def assegnazione(x):
     if x >=40: return "Nella media"
     if x >=20: return "Negative"
     
-    return "Estremamente negative"
+    return "Molto negative"
 
 def scatterQualita():
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
@@ -159,9 +159,10 @@ def scatterQualita():
 
 
     df = df[['Estimated owners','Valutazione','User score']].value_counts()
-    df = df.reset_index()
-    df = df.rename(columns={0: 'Occorenze'})
 
+    df = df.reset_index()
+    df = df.rename(columns={'count': 'Occorenze'})
+    print(df.columns)
     df['Size'] = df['Occorenze'] *20
     df = df.sort_values('Estimated owners')
     df['Estimated owners'] = df['Estimated owners'].astype('str')
@@ -173,16 +174,15 @@ def scatterQualita():
             df, 
             x='User score',
             y='Estimated owners',
-            color_discrete_sequence=['#2c7bb6','#abd9e9','#ffffbf','#fdae61','#d7191c'],
+            color_discrete_sequence=['#785EF0','#648FFF','#FFB000','#FE6100','#DC267F'],
             color='Valutazione',
             size='Size',
-            category_orders={'Valutazione': ["Molto positive","Positive","Nella media","Negative","Estremamente negative",]}
+            category_orders={'Valutazione': ["Molto positive","Positive","Nella media","Negative","Molto negative",]}
             )
     
     fig.update_layout(
         template = 'plotly_white',
         font_family="Calibri",
-        title = "Estimated owners / User Score",
         xaxis_title="User score",
         yaxis_title="Estimated owners",
 
@@ -190,12 +190,11 @@ def scatterQualita():
         
         font=dict( 
             size=15, 
-            color="#000000" 
         ),
 
         xaxis=dict(
             categoryorder='array', 
-            categoryarray=["Estremamente negative","Negative","Nella media","Positive","Molto positive"]
+            categoryarray=["Molto negative","Negative","Nella media","Positive","Molto positive"]
         ),
     )
     
