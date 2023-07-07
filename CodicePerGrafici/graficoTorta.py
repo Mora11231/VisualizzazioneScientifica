@@ -6,7 +6,7 @@ def graficoTortaF2PvsP2P():
  
     serie = df.F2P.value_counts()
     
-    fig = px.pie(values=serie,names=['F2P','P2P'],color_discrete_sequence=['#785EF0','#FFB000'])
+    fig = px.pie(values=serie,names=['P2P','F2P'],color_discrete_sequence=['#785EF0','#FFB000'])
 
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
@@ -59,5 +59,5 @@ def graficoTortaAppEGiochi():
     fig.show()
 
 
-graficoTortaAppEGiochi()
-#graficoTortaF2PvsP2P()
+#graficoTortaAppEGiochi()
+graficoTortaF2PvsP2P()
