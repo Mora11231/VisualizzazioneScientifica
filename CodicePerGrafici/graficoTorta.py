@@ -59,6 +59,63 @@ def graficoTortaAppEGiochi():
 
     fig.show()
 
+def transizioneDaP2PaF2P():
+    anno2010=[20,80]
+    anno2015=[50,50]
+    anno2020=[75,25]
+
+    label=['In-game purchases','Game purchases']
+
+    fig = px.pie(values=anno2010,labels=label,color_discrete_sequence=['#785EF0','#FFB000'],hole=0.5)
+
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        font_family="Calibri",
+        template="plotly_white",
+        title='2010',
+        legend_title = "Legenda:",
+        title_x=0.5,
+        font=dict( 
+            size=25,
+            color='white'
+        )
+    )
+
+    fig.show()
+    fig =px.pie(values=anno2015,labels=label,color_discrete_sequence=['#785EF0','#FFB000'],hole=0.5)
+
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        font_family="Calibri",
+        template="plotly_white",
+        title='2015',
+        title_x=0.5,
+        legend_title = "Legenda:",
+        
+        font=dict( 
+            size=25,
+            color='white'
+        )
+    )
+
+    fig.show()
+    fig =px.pie(values=anno2020,labels=label,color_discrete_sequence=['#785EF0','#FFB000'],hole=0.5)
+
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        font_family="Calibri",
+        template="plotly_white",
+        title='2020',
+        legend_title = "Legenda:",
+        title_x=0.5,
+        font=dict( 
+            size=25,
+            color='white'
+        )
+    )
+
+    fig.show()
 
 #graficoTortaAppEGiochi()
-graficoTortaF2PvsP2P()
+#graficoTortaF2PvsP2P()
+transizioneDaP2PaF2P()
