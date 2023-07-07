@@ -182,9 +182,9 @@ def scatterQualita():
     fig.update_layout(
         template = 'plotly_white',
         font_family="Calibri",
-        title = "Estimated owners / PlayTime",
-        xaxis_title="Estimated owners",
-        yaxis_title="Ore di gioco",
+        title = "Estimated owners / User Score",
+        xaxis_title="User score",
+        yaxis_title="Estimated owners",
 
 
         
@@ -220,6 +220,6 @@ def scatterQualita():
     
     fig.show()
 
-#scatterQualita()
-scatterOwnerPeakPerF2P()
-scatterOwnerTimePerF2P()
+scatterQualita()
+#scatterOwnerPeakPerF2P()
+#scatterOwnerTimePerF2P()
