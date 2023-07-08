@@ -4,6 +4,7 @@ import plotly.express as px
 import numpy as np
 import re
 from plotly.subplots import make_subplots
+import plotly.io as pio
 
 
 
@@ -476,7 +477,6 @@ def graficoBarreSingleMultiCoop():
     fig.add_trace(fig3,row=1,col=3)
 
     fig.update_layout(
-        paper_bgcolor='rgba(0,0,0,0)',
         template='plotly_white',
         font_family="Calibri",
         yaxis_title="(%)",
@@ -488,7 +488,6 @@ def graficoBarreSingleMultiCoop():
         title_x=0.9,
         
      )
-
     fig.show()
     
     
