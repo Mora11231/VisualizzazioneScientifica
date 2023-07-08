@@ -3,6 +3,7 @@ import plotly.graph_objs as go
 import plotly.express as px
 import numpy as np
 import re
+from plotly.subplots import make_subplots
 
 
 
@@ -12,7 +13,7 @@ def valoreOwnerStimatoD(x,y):
 
 def graficoBarrePerEstimated():
     df = pd.read_csv('CodicePerGrafici/fileAggiornato.csv')
-    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimatoD(x['Estimated owners'],x['Peak CCU']),axis=1)
+    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimatoD(x['Estimated owners'],x['avg CCU']),axis=1)
     df['Release date'] = df['Release date'].astype('datetime64[ns]')
     df['year'] = df['Release date'].apply(lambda x: x.year)
 
@@ -310,7 +311,7 @@ def diagrammaBarreF2PvsP2PAvgTime():
     
     fig.show()
 
-def diagrammaBarreF2PvsP2PPeakCCU():
+def diagrammaBarreF2PvsP2PavgTime():
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
     df['Release date'] = df['Release date'].astype('datetime64[ns]')
 
@@ -319,8 +320,8 @@ def diagrammaBarreF2PvsP2PPeakCCU():
     P2P = df[df['F2P'] == False]
     F2P = df[df['F2P'] == True]
 
-    series_P2P = P2P[['year','Peak CCU']].groupby('year').sum().sort_index()
-    series_F2P = F2P[['year','Peak CCU']].groupby('year').sum().sort_index()
+    series_P2P = P2P[['year','avg CCU']].groupby('year').sum().sort_index()
+    series_F2P = F2P[['year','avg CCU']].groupby('year').sum().sort_index()
 
     sum_p2p = series_P2P.cumsum().sort_index()
     series_P2P.loc[2008] = sum_p2p.loc[2008]
@@ -348,7 +349,7 @@ def diagrammaBarreF2PvsP2PPeakCCU():
     fig.update_layout(
         template='plotly_white',
         font_family="Calibri",
-        xaxis_title="Peak CCU (%)",
+        xaxis_title="avg CCU (%)",
         yaxis_title="Anni",
         legend=dict(
             orientation="h",
@@ -394,7 +395,7 @@ def checkCoop(x):
 
 def graficoBarreSingleMultiCoop():
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
-    df = df[['Name','Categories','Estimated owners','Peak CCU','User score']]
+    df = df[['Name','Categories','Estimated owners','Average playtime forever','User score']]
     
     df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
     df = df[df['Estimated owners'] > 100]
@@ -408,46 +409,87 @@ def graficoBarreSingleMultiCoop():
     eu = eu.reset_index()
     eu['Estimated owners'] = eu['Estimated owners'] / sum(eu['Estimated owners'])*100
 
-    peakCCU = df[['Peak CCU','Single','Multi','Coop']].groupby(['Single','Multi','Coop']).sum()
-    peakCCU = peakCCU.reset_index()
-    peakCCU['Peak CCU'] = peakCCU['Peak CCU'] / sum(peakCCU['Peak CCU'])*100
+    avgTime = df[['Average playtime forever','Single','Multi','Coop']].groupby(['Single','Multi','Coop']).sum()
+    avgTime = avgTime.reset_index()
+    avgTime['Average playtime forever'] = avgTime['Average playtime forever'] / sum(avgTime['Average playtime forever'])*100
 
-    userScore = df[['User score','Single','Multi','Coop']].groupby(['Single','Multi','Coop']).sum()
+    userScore = df[df['User score'] >= 80]
+    userScore = userScore[['User score','Single','Multi','Coop']].groupby(['Single','Multi','Coop']).count()
     userScore = userScore.reset_index()
-    userScore['User score'] = userScore['User score'] / sum(userScore['User score'])*100
+
+    valoriOwner=[0,0,0]
+    valoriOwner[0]=sum(eu[eu['Single'] == True]['Estimated owners'])
+    valoriOwner[1]=sum(eu[eu['Multi'] == True]['Estimated owners'])
+    valoriOwner[2]=sum(eu[eu['Coop'] == True]['Estimated owners'])
+    tot=valoriOwner[0]+valoriOwner[1]+valoriOwner[2]
+    valoriOwner[0] = valoriOwner[0]/tot *100
+    valoriOwner[1] = valoriOwner[1]/tot *100
+    valoriOwner[2] = valoriOwner[2]/tot *100
+    valoriOwner = [round(x,0) for x in valoriOwner]
+
+    valoriTime=[0,0,0]
+    valoriTime[0]=sum(avgTime[avgTime['Single'] == True]['Average playtime forever'])
+    valoriTime[1]=sum(avgTime[avgTime['Multi'] == True]['Average playtime forever'])
+    valoriTime[2]=sum(avgTime[avgTime['Coop'] == True]['Average playtime forever'])
+    tot=valoriTime[0]+valoriTime[1]+valoriTime[2]
+    valoriTime[0] = valoriTime[0]/tot *100
+    valoriTime[1] = valoriTime[1]/tot *100
+    valoriTime[2] = valoriTime[2]/tot *100
+    valoriTime = [round(x,0) for x in valoriTime]
+
+    valoriUserScore=[0,0,0]
+    valoriUserScore[0] = float(userScore[userScore['Single'] == True]['User score'] / df.Single.sum() * 100)
+    valoriUserScore[1] = float(userScore[userScore['Multi'] == True]['User score'] / df.Multi.sum() * 100)
+    valoriUserScore[2] = float(userScore[userScore['Coop'] == True]['User score'] / df.Coop.sum() * 100)
+    tot = valoriUserScore[0]+valoriUserScore[1]+valoriUserScore[2]
+    valoriUserScore[0] = valoriUserScore[0]/tot *100
+    valoriUserScore[1] = valoriUserScore[1]/tot *100
+    valoriUserScore[2] = valoriUserScore[2]/tot *100
+    valoriUserScore = [round(x,0) for x in valoriUserScore]
+
+
+
 
     data = {
-        'Tipo' : ['Estimated owner','Estimated owner','Estimated owner','Peak CCU','Peak CCU','Peak CCU','User scores','User scores','User scores'],
+        'Tipo' : ['Estimated owner','Estimated owner','Estimated owner','Average playtime forever','Average playtime forever','Average playtime forever','User scores','User scores','User scores'],
         'Categoria' : ['Single','Multi','Coop','Single','Multi','Coop','Single','Multi','Coop'],
-        'val' : [sum(eu[eu['Single'] == True]['Estimated owners']),sum(eu[eu['Multi'] == True]['Estimated owners']),sum(eu[eu['Coop'] == True]['Estimated owners']),
-                 sum(peakCCU[peakCCU['Single'] == True]['Peak CCU']),sum(peakCCU[peakCCU['Multi'] == True]['Peak CCU']),sum(peakCCU[peakCCU['Coop'] == True]['Peak CCU']),
-                 sum(userScore[userScore['Single'] == True]['User score']),sum(userScore[userScore['Multi'] == True]['User score']),sum(userScore[userScore['Coop'] == True]['User score'])
+        'val' : [valoriOwner[0],valoriOwner[1],valoriOwner[2],
+                 valoriTime[0],valoriTime[1],valoriTime[2],
+                 valoriUserScore[0],valoriUserScore[1],valoriUserScore[2]
                 ]
     }
-
+    
     data = pd.DataFrame(data)
+    
+    eu = data[data['Tipo']=='Estimated owner']
+    avg = data[data['Tipo']=='Average playtime forever']
+    score = data[data['Tipo']=='User scores']
 
+    fig = make_subplots(rows=1, cols=3, specs=[[{"type": "bar"}, {"type": "bar"}, {"type": "bar"}]])
 
-    fig = px.bar(data[data['Tipo']=='Estimated owner'], x='Tipo',y='val',color='Categoria',color_discrete_map={'Single': '#648FFF', 'Multi': '#FFB000','Coop': '#DC267F'})
+    fig1 = go.Bar(x=eu['Tipo'],y=eu['val'],marker=dict(color=['#648FFF', '#FFB000', '#DC267F']),name='Single',width=0.5,text=eu['val'],textposition='auto',showlegend=True )
+    fig2 = go.Bar(x=avg['Tipo'],y=avg['val'],marker=dict(color=['#648FFF', '#FFB000', '#DC267F']),name='Multi',width=0.5,text=avg['val'],textposition='auto')
+    fig3 = go.Bar(x=score['Tipo'],y=score['val'],marker=dict(color=['#648FFF', '#FFB000', '#DC267F']),name='Coop',width=0.5,text=score['val'],textposition='auto')
+
+    fig.add_trace(fig1,row=1,col=1)
+    fig.add_trace(fig2,row=1,col=2)
+    fig.add_trace(fig3,row=1,col=3)
 
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         template='plotly_white',
         font_family="Calibri",
-        xaxis_title="Indici ",
         yaxis_title="(%)",
-        legend_title = "legenda",
+        legend_title = "Legenda:",
         font=dict( 
             size=15, 
         ),
+        margin=dict(l=20, r=5, t=20, b=20),
+        title_x=0.9,
         
      )
-    
-    fig.update_traces(textposition="inside", width = 0.25)
 
     fig.show()
-        
-    
     
     
     
@@ -457,5 +499,4 @@ graficoBarreSingleMultiCoop()
 #diagrammaBarreF2PvsP2P()
 #uscitePerMese()
 #diagrammaBarreF2PvsP2PAvgTime()
-#diagrammaBarreF2PvsP2PPeakCCU()
-
+#diagrammaBarreF2PvsP2PavgTime()
