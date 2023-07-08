@@ -1,5 +1,6 @@
 import re
 import plotly.express as px
+import plotly.graph_objs as go
 import pandas as pd
 from datetime import date
 
@@ -37,7 +38,7 @@ def sunBurstPerCovidV2():
     df['Multi'] = df['Categories'].apply(lambda x: checkMultiplayer(x))
     df['Single'] = df['Categories'].apply(lambda x: checkSingleplayer(x))
     df['Coop'] = df['Categories'].apply(lambda x: checkCoop(x))
-    df['MultiSingle'] = df['Categories'].apply(lambda x: checkMultiSingle(x))
+
 
     pre = date(2020,1,1)
     post = date(2022,1,1)
@@ -74,15 +75,12 @@ def sunBurstPerCovidV2():
                         sum(covid[(covid.Single == True) & (covid.Coop == False)]['Estimated owners']),sum(covid[(covid.Multi == True) & (covid.Coop == False)]['Estimated owners']),sum(covid[covid.Coop == True]['Estimated owners']),
                         sum(post_covid[(post_covid.Single == True) & (post_covid.Coop == False)]['Estimated owners']),sum(post_covid[(post_covid.Multi == True) & (post_covid.Coop == False)]['Estimated owners']),sum(post_covid[post_covid.Coop == True]['Estimated owners'])],
     )
-    fig = px.sunburst(
-
-        names =data['labels'],
-        parents=data['periodo'],
-        values=data['value'],
-        
-        color_discrete_sequence=['#648FFF', '#FFB000', '#DC267F'],
-
-    )
+    fig = go.Figure(go.Sunburst(
+    labels=data['labels'],
+    parents=data['periodo'],
+    values=data['value'],
+    marker=dict(colors=['#648FFF', '#FFB000', '#DC267F']),
+    ))
     
     fig.update_traces(textfont=dict(color='white', size=30))
 

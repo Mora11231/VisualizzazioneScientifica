@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
 import numpy as np
-
+import re
 
 
 
@@ -378,8 +378,84 @@ def diagrammaBarreF2PvsP2PPeakCCU():
     
     fig.show()
 
-graficoBarrePerEstimated()
-diagrammaBarreF2PvsP2P()
-uscitePerMese()
-diagrammaBarreF2PvsP2PAvgTime()
-diagrammaBarreF2PvsP2PPeakCCU()
+def replaceNaN(x):
+    if x!=x:
+        return ""
+    return x
+def checkMultiplayer(x):
+    return bool(re.search(r'\b(?:\w+,\s)?Multi-player(?:,\s\w+)?\b', x))
+
+def checkSingleplayer(x):
+    return bool(re.search(r'\b(?:\w+,\s)?Single-player(?:,\s\w+)?\b', x)) & (not checkMultiplayer(x))
+
+def checkCoop(x):
+    return bool(re.search(r'\b(?:\w+,\s)?Co-op(?:,\s\w+)?\b', x))
+
+
+def graficoBarreSingleMultiCoop():
+    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
+    df = df[['Name','Categories','Estimated owners','Peak CCU','User score']]
+    
+    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
+    df = df[df['Estimated owners'] > 100]
+    df['Categories'] = df['Categories'].apply(lambda x: replaceNaN(x))
+
+    df['Multi'] = df['Categories'].apply(lambda x: checkMultiplayer(x) & (not checkCoop(x)))
+    df['Single'] = df['Categories'].apply(lambda x: checkSingleplayer(x) & (not checkCoop(x)))
+    df['Coop'] = df['Categories'].apply(lambda x: checkCoop(x))
+
+    eu = df[['Estimated owners','Single','Multi','Coop']].groupby(['Single','Multi','Coop']).sum()
+    eu = eu.reset_index()
+    eu['Estimated owners'] = eu['Estimated owners'] / sum(eu['Estimated owners'])*100
+
+    peakCCU = df[['Peak CCU','Single','Multi','Coop']].groupby(['Single','Multi','Coop']).sum()
+    peakCCU = peakCCU.reset_index()
+    peakCCU['Peak CCU'] = peakCCU['Peak CCU'] / sum(peakCCU['Peak CCU'])*100
+
+    userScore = df[['User score','Single','Multi','Coop']].groupby(['Single','Multi','Coop']).sum()
+    userScore = userScore.reset_index()
+    userScore['User score'] = userScore['User score'] / sum(userScore['User score'])*100
+
+    data = {
+        'Tipo' : ['Estimated owner','Estimated owner','Estimated owner','Peak CCU','Peak CCU','Peak CCU','User scores','User scores','User scores'],
+        'Categoria' : ['Single','Multi','Coop','Single','Multi','Coop','Single','Multi','Coop'],
+        'val' : [sum(eu[eu['Single'] == True]['Estimated owners']),sum(eu[eu['Multi'] == True]['Estimated owners']),sum(eu[eu['Coop'] == True]['Estimated owners']),
+                 sum(peakCCU[peakCCU['Single'] == True]['Peak CCU']),sum(peakCCU[peakCCU['Multi'] == True]['Peak CCU']),sum(peakCCU[peakCCU['Coop'] == True]['Peak CCU']),
+                 sum(userScore[userScore['Single'] == True]['User score']),sum(userScore[userScore['Multi'] == True]['User score']),sum(userScore[userScore['Coop'] == True]['User score'])
+                ]
+    }
+
+    data = pd.DataFrame(data)
+
+
+    fig = px.bar(data[data['Tipo']=='Estimated owner'], x='Tipo',y='val',color='Categoria',color_discrete_map={'Single': '#648FFF', 'Multi': '#FFB000','Coop': '#DC267F'})
+
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        template='plotly_white',
+        font_family="Calibri",
+        xaxis_title="Indici ",
+        yaxis_title="(%)",
+        legend_title = "legenda",
+        font=dict( 
+            size=15, 
+        ),
+        
+     )
+    
+    fig.update_traces(textposition="inside", width = 0.25)
+
+    fig.show()
+        
+    
+    
+    
+    
+
+graficoBarreSingleMultiCoop()
+#graficoBarrePerEstimated()
+#diagrammaBarreF2PvsP2P()
+#uscitePerMese()
+#diagrammaBarreF2PvsP2PAvgTime()
+#diagrammaBarreF2PvsP2PPeakCCU()
+
