@@ -1,7 +1,7 @@
 import pandas as pd 
 import plotly.express as px
 import plotly.graph_objects as go
-
+import plotly.io as pio
 
 
 def valoreOwnerStimato(x):
@@ -42,7 +42,7 @@ def treeMapEstimatedOwner():
         values=val,
         marker=dict(
             #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
-            colorscale = 'viridis'
+            colorscale = 'Ylgnbu'
         )
 
         ))
@@ -57,7 +57,7 @@ def treeMapEstimatedOwner():
         ),
        
     )
-    fig.show()
+    pio.write_image(fig, 'TreeMapOwn.png',scale=6, width=1920, height=980)
 
 def treeMapPeak():
 
@@ -90,11 +90,14 @@ def treeMapPeak():
         values=val,
         marker=dict(
             #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
-            colorscale = 'viridis'
+            colorscale = 'Speed',
+            
         )
 
         ))
-    
+    fig.update_traces(
+        root_color = 'white',
+    )
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",
@@ -105,7 +108,8 @@ def treeMapPeak():
         ),
        
     )
-    fig.show()
+    pio.write_image(fig, 'TreeMapPeak.png',scale=6, width=1920, height=980)
+
 
 def treeMapAvgTime():
 
@@ -138,7 +142,7 @@ def treeMapAvgTime():
         values=val,
         marker=dict(
             #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
-            colorscale = 'viridis'
+            colorscale = 'YlOrRd'
         )
         ))
     
@@ -152,7 +156,8 @@ def treeMapAvgTime():
         ),
        
     )
-    fig.show()
+    pio.write_image(fig, 'TreeMapAvg.png',scale=6, width=1920, height=980)
+
 
 
 

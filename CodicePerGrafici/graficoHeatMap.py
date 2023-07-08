@@ -1,73 +1,165 @@
-import pandas as pd
-import plotly.graph_objs as go
+import pandas as pd 
 import plotly.express as px
-
-def replaceNaN(x):
-    if x!=x:
-        return ""
-    return x
+import plotly.graph_objects as go
 
 
-def heatMapGeneriGiochi():
-    df = pd.read_csv("CodicePerGrafici/fileAggiornatoTags.csv")
-    generi = ["Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]
-   
-    data=[[]]
 
-    for i in generi:
-        lista=[]
-        for j in generi:
-            if i==j:
-                lista.append(float("nan"))
-            else:
-                lista.append(df[i].corr(df[j]))
-        data.append(lista)
+def valoreOwnerStimato(x):
+    a = x.split()
+    return int((int(a[0]) + int(a[2]))/2)
 
-    data=data[1:]
+def treeMapEstimatedOwner():
 
-    layout = go.Layout(
-        xaxis = dict(
-            tickmode = 'linear'
+    df = pd.read_csv('CodicePerGrafici/FileAggiornatoTags.csv')
+    df=df[df['User score']>=80]
+    df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
+    
+    generi = ["Estimated owners","Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]
+
+    df = df[generi]
+
+    for i in generi[1:]:
+         df[i] = df [i] * df["Estimated owners"]
+    
+    df['Estimated owners'] = df['Estimated owners'].astype('str')
+    
+    df = df.sum()[1:]
+    
+  
+
+    name = ["Estimated Owners"]
+    parent = [""]
+    val = [0]
+
+    for j in df.index:
+            name.append(j)
+            parent.append("Estimated Owners")
+            val.append(df[j])
+
+    fig = go.Figure(go.Treemap(
+        labels=name,
+        parents=parent,
+        values=val,
+        marker=dict(
+            #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            colorscale = 'ylorrd'
         )
-    )
+
+        ))
     
-    heat = go.Heatmap(
-        z=data,
-        x=generi,
-        y=generi,
-        xgap = 5,
-        ygap = 5,
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        font_family="Calibri",  
+        template="plotly_white",
+
+        font=dict( 
+            size=25, 
+        ),
+       
     )
+    fig.show()
+
+def treeMapPeak():
+
+    df = pd.read_csv('CodicePerGrafici/FileAggiornatoTags.csv')
+    df=df[df['User score']>=80]
     
-    fig = go.Figure(data=heat, layout=layout)
+    generi = ["Peak CCU","Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]
+
+    df = df[generi]
+
+    for i in generi[1:]:
+         df[i] = df [i] * df["Peak CCU"]
+    
+    df['Peak CCU'] = df['Peak CCU'].astype('str')
+    
+    df = df.sum()[1:]
+    
+  
+    name = ["Peak CCU"]
+    parent = [""]
+    val = [0]
+
+    for j in df.index:
+            name.append(j)
+            parent.append("Peak CCU")
+            val.append(df[j])
+    fig = go.Figure(go.Treemap(
+        labels=name,
+        parents=parent,
+        values=val,
+        marker=dict(
+            #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            colorscale = 'Aggrnyl'
+            
+        )
+
+        ))
 
     fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",
         template="plotly_white",
         
         font=dict( 
-            size=15, 
-        )
-
+            size=25,
+        ),
+       
     )
-
-    fig.update_xaxes(
-        showgrid=False,
-    )
-
-    fig.update_yaxes(
-        showgrid=False,
-    )
-
-    colorscale = 'viridis'
-    fig.update_traces(
-        colorscale=colorscale,
-        )
-    fig.update_traces(colorbar=dict(
-        tickvals=[0.4,-0.09],
-        ticktext=["Forte Relazione","Relazione Debole"]
-    ))
     fig.show()
+
+def treeMapAvgTime():
+
+    df = pd.read_csv('CodicePerGrafici/FileAggiornatoTags.csv')
+    df=df[df['User score']>=80]
+    
+    generi = ["Average playtime forever","Action","Racing","SexualContent","MMO","Simulator","Casual","Strategy","Sport","RPG","CardGame","Survival","Horror","Rogue-Like","Platformer","Fighter","Fantasy","Shooter","MOBA","Hack&Slash"]
+
+    df = df[generi]
+
+    for i in generi[1:]:
+         df[i] = df [i] * df["Average playtime forever"]
+    
+    df['Average playtime forever'] = df['Average playtime forever'].astype('str')
+    
+    df = df.sum()[1:]
     
 
-heatMapGeneriGiochi()
+    name = ["Average Play Time"]
+    parent = [""]
+    val = [0]
+
+    for j in df.index:
+            name.append(j)
+            parent.append("Average Play Time")
+            val.append(df[j])
+    fig = go.Figure(go.Treemap(
+        labels=name,
+        parents=parent,
+        values=val,
+        marker=dict(
+            #colors=['#ffffff','#1E88E5','#FFC107','#004D40','#DA5B62','#D1A395','#511070','#86E42B','#49A67E','#793FDD','#8A597C','#EB4AF5','#F4E2F0','#F1118E','#758D0C','#D2674B','#B07363','#585B26','#AE6E8B']
+            #colorscale = 'Aggrnyl'
+            colorscale = 'Ylgnbu'
+            
+        )
+        ))
+    
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        font_family="Calibri",
+        template="plotly_white",
+        
+        font=dict( 
+            size=25, 
+        ),
+       
+    )
+    fig.show()
+
+
+
+
+treeMapEstimatedOwner()
+treeMapPeak()
+treeMapAvgTime()
