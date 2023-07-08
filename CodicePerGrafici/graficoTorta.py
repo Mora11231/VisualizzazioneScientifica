@@ -1,6 +1,7 @@
 import pandas as pd
 import plotly.express as px
-
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 def graficoTortaF2PvsP2P():
     df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
  
@@ -66,54 +67,29 @@ def transizioneDaP2PaF2P():
 
     label=['In-game purchases','Game purchases']
 
-    fig = px.pie(values=anno2010,labels=label,color_discrete_sequence=['#785EF0','#FFB000'],hole=0.5)
+    fig = make_subplots(rows=1, cols=3, specs=[[{"type": "pie"}, {"type": "pie"}, {"type": "pie"}]])
 
+    fig.add_trace (go.Pie(values=anno2010,hole=0.5,title=2010, labels=['Revenue from In-Game Purchases','Revenue from Premium Games']), row=1, col=1)
+
+
+    fig.add_trace (go.Pie(values=anno2015,hole=0.5, title=2015, labels=['Revenue from In-Game Purchases','Revenue from Premium Games']), row=1, col=2)
+
+
+    fig.add_trace (go.Pie(values=anno2020,hole=0.5, title=2020, labels=['Revenue from In-Game Purchases','Revenue from Premium Games']), row=1, col=3)
+
+    fig.update_traces(marker=dict(colors=['#785EF0','#FFB000']))
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",
         template="plotly_white",
-        title='2010',
-        legend_title = "Legenda:",
         title_x=0.5,
+        legend_x=0.35,
+        legend_y=1.2,
         font=dict( 
             size=25,
             color='white'
         )
     )
-
-    fig.show()
-    fig =px.pie(values=anno2015,labels=label,color_discrete_sequence=['#785EF0','#FFB000'],hole=0.5)
-
-    fig.update_layout(
-        paper_bgcolor='rgba(0,0,0,0)',
-        font_family="Calibri",
-        template="plotly_white",
-        title='2015',
-        title_x=0.5,
-        legend_title = "Legenda:",
-        
-        font=dict( 
-            size=25,
-            color='white'
-        )
-    )
-
-    fig.show()
-    fig =px.pie(values=anno2020,labels=label,color_discrete_sequence=['#785EF0','#FFB000'],hole=0.5)
-
-    fig.update_layout(
-        paper_bgcolor='rgba(0,0,0,0)',
-        font_family="Calibri",
-        template="plotly_white",
-        title='2020',
-        legend_title = "Legenda:",
-        title_x=0.5,
-        font=dict( 
-            size=25,
-            color='white'
-        )
-    )
-
     fig.show()
 
 #graficoTortaAppEGiochi()

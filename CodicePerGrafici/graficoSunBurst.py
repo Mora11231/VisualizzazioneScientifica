@@ -3,7 +3,8 @@ import plotly.express as px
 import plotly.graph_objs as go
 import pandas as pd
 from datetime import date
-
+import plotly.graph_objects as go
+import plotly.io as pio
 
 def replaceNaN(x):
     if x!=x:
@@ -27,7 +28,7 @@ def valoreOwnerStimato(x):
     return int((int(a[0]) + int(a[2]))/2)
 
 def sunBurstPerCovidV2():
-    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
+    df = pd.read_csv('fileAggiornatoF2P.csv')
     df = df[['Name','Release date','Categories','Estimated owners']]
     df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
     df = df[df['Estimated owners'] > 100]
@@ -79,16 +80,19 @@ def sunBurstPerCovidV2():
     labels=data['labels'],
     parents=data['periodo'],
     values=data['value'],
-    marker=dict(colors=['#648FFF', '#FFB000', '#DC267F']),
+    marker=dict(colors=['#648FFF', '#FFB000', '#DC267F'], line=dict(color='white', width=0.5)),
     ))
+
+
     
-    fig.update_traces(textfont=dict(color='white', size=30))
+    fig.update_traces(textfont=dict( size=30),)
 
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         font_family="Calibri",
         template="plotly_white",
     )
-    
+    pio.write_image(fig, 'image.png',scale=6, width=1080, height=1080)
     fig.show()
+    
 sunBurstPerCovidV2()  
