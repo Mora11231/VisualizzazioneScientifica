@@ -28,7 +28,7 @@ def valoreOwnerStimato(x):
     return int((int(a[0]) + int(a[2]))/2)
 
 def sunBurstPerCovidV2():
-    df = pd.read_csv('fileAggiornatoF2P.csv')
+    df = pd.read_csv('CodicePerGrafici/fileAggiornatoF2P.csv')
     df = df[['Name','Release date','Categories','Estimated owners']]
     df['Estimated owners'] =  df.apply(lambda x:valoreOwnerStimato(x['Estimated owners']),axis=1)
     df = df[df['Estimated owners'] > 100]
@@ -67,9 +67,9 @@ def sunBurstPerCovidV2():
 
     data = dict(
         labels = ['Pre-Covid', 'DuranteCovid', 'Post-Covid',
-                  'SiglePlayer '+str(round(pre_covid[(pre_covid.Single == True) & (pre_covid.Coop == False)]['Estimated owners'].sum(),2))+"%",'Multiplayer '+str(round(pre_covid[(pre_covid.Multi == True) &(pre_covid.Coop == False)]['Estimated owners'].sum(),2))+"%",   'Coop '+str(round(pre_covid[pre_covid.Coop == True]['Estimated owners'].sum(),2))+"%",
-                  'SiglePlayer '+str(round(covid[(covid.Single == True) & (covid.Coop == False)]['Estimated owners'].sum(),2))+"%",'Multiplayer '+str(round(covid[(covid.Multi == True) & (covid.Coop == False)]['Estimated owners'].sum(),2))+"%",           'Coop '+str(round(covid[covid.Coop == True]['Estimated owners'].sum(),2))+"%",
-                  'SiglePlayer '+str(round(post_covid[(post_covid.Single == True) & (post_covid.Coop == False)]['Estimated owners'].sum(),2))+"%",  'Multiplayer '+str(round(post_covid[(post_covid.Multi == True) & (post_covid.Coop == False)]['Estimated owners'].sum(),2))+"%", 'Coop '+str(round(post_covid[post_covid.Coop == True]['Estimated owners'].sum(),2))+"%"],
+                  'SinglePlayer '+str(round(pre_covid[(pre_covid.Single == True) & (pre_covid.Coop == False)]['Estimated owners'].sum(),2))+"%",'Multiplayer '+str(round(pre_covid[(pre_covid.Multi == True) &(pre_covid.Coop == False)]['Estimated owners'].sum(),2))+"%",   'Coop '+str(round(pre_covid[pre_covid.Coop == True]['Estimated owners'].sum(),2))+"%",
+                  'SinglePlayer '+str(round(covid[(covid.Single == True) & (covid.Coop == False)]['Estimated owners'].sum(),2))+"%",'Multiplayer '+str(round(covid[(covid.Multi == True) & (covid.Coop == False)]['Estimated owners'].sum(),2))+"%",           'Coop '+str(round(covid[covid.Coop == True]['Estimated owners'].sum(),2))+"%",
+                  'SinglePlayer '+str(round(post_covid[(post_covid.Single == True) & (post_covid.Coop == False)]['Estimated owners'].sum(),2))+"%",  'Multiplayer '+str(round(post_covid[(post_covid.Multi == True) & (post_covid.Coop == False)]['Estimated owners'].sum(),2))+"%", 'Coop '+str(round(post_covid[post_covid.Coop == True]['Estimated owners'].sum(),2))+"%"],
         periodo=['','','','Pre-Covid','Pre-Covid','Pre-Covid','DuranteCovid','DuranteCovid','DuranteCovid', 'Post-Covid','Post-Covid','Post-Covid'],
     
         value = [0,0,0, sum(pre_covid[(pre_covid.Single == True) & (pre_covid.Coop == False)]['Estimated owners']),sum(pre_covid[(pre_covid.Multi == True) &  (pre_covid.Coop == False)]['Estimated owners']),sum(pre_covid[pre_covid.Coop == True]['Estimated owners']),
@@ -85,7 +85,7 @@ def sunBurstPerCovidV2():
 
 
     
-    fig.update_traces(textfont=dict( size=30),)
+    fig.update_traces(textfont=dict( size=30, color='white'))
 
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
