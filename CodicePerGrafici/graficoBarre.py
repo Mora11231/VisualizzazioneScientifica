@@ -475,19 +475,30 @@ def graficoBarreSingleMultiCoop():
     fig.add_trace(fig1,row=1,col=1)
     fig.add_trace(fig2,row=1,col=2)
     fig.add_trace(fig3,row=1,col=3)
-
+    
+    fig.update_xaxes(
+        showgrid =False, # thin lines in the background
+        zeroline = False, # thick line at x=0
+        visible = True,  # numbers below
+    )
+    fig.update_yaxes(
+        showgrid =False, # thin lines in the background
+        zeroline = False, # thick line at x=0
+        visible = False,  # numbers below
+    )
     fig.update_layout(
         template='plotly_white',
         font_family="Calibri",
         yaxis_title="(%)",
         legend_title = "Legenda:",
         font=dict( 
-            size=15, 
+            size=20, 
         ),
-        margin=dict(l=20, r=5, t=20, b=20),
+        margin=dict(l=5, r=5, t=20, b=20),
         title_x=0.9,
         
      )
+    pio.write_image(fig, 'image.png',scale=6, width=1920, height=1080)
     fig.show()
     
     
